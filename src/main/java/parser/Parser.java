@@ -1,37 +1,36 @@
 package parser;
 
-import model.YamlModel;
+import model.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class Parser {
-    private List<YamlModel> yamlListAttributes;
-    private List<StringBuilder> propertiesList;
 
-    public Parser() {
-        propertiesList = new ArrayList<>();
-        yamlListAttributes = new ArrayList<>();
-    }
+public class Parser extends AuxiliaryFuntionalParsing {
+    private List<YamlModel> yamlListAttributes = new ArrayList<>();
+    private List<StringBuilder> propertiesList = new ArrayList<>();
 
     public List<StringBuilder> yamlToProperties(List<String> yamlListConfiguration) {
-        for (String yamlConfiguration : yamlListConfiguration) {
-            if (!checkYamlAttribute(yamlConfiguration)) {
-                addYamlAttributes(yamlConfiguration);
-            } else {
-                setPropertiesList(yamlConfiguration);
-            }
-        }
+        yamlListConfiguration.forEach(yamlStrConfig -> parsing(yamlStrConfig));
         return propertiesList;
     }
 
-    private void addYamlAttributes(String yamlConfiguration) {
-        int countSpace = getCountSpace(yamlConfiguration);
+    private void parsing(String yamlStrConfig) {
+        if (!checkYamlAttribute(yamlStrConfig)) {
+            addYamlAttributes(yamlStrConfig);
+        } else {
+            setPropertiesStr(yamlStrConfig);
+        }
+    }
+
+    private void addYamlAttributes(String yamlStrConfig) {
+        int countSpace = getCountSpace(yamlStrConfig);
         clearConfiguration(countSpace);
-        final String yamlAttribute = getYamlAttribute(yamlConfiguration);
+        final String yamlAttribute = getYamlAttribute(yamlStrConfig);
         yamlListAttributes.add(new YamlModel(countSpace, yamlAttribute));
     }
 
-    private void setPropertiesList(String yamlConfiguration) {
+    private void setPropertiesStr(String yamlConfiguration) {
         if (!addAtttribute(yamlConfiguration)) {
             StringBuilder propertiesConfig = new StringBuilder();
             int countSpace = getCountSpace(yamlConfiguration);
@@ -45,45 +44,18 @@ public class Parser {
     }
 
     private boolean addAtttribute(String yamlConfiguration) {
-        final int size = propertiesList.size() - 1;
+        final int sizePropertiesList = propertiesList.size() - 1;
         yamlConfiguration = yamlConfiguration.trim();
-        final char[] mas;
-        if (size > 0) {
-            mas = propertiesList.get(size).toString().toCharArray();
-            if (mas.length > 0 && mas[mas.length - 1] == '>') {
-                final String str = propertiesList.get(size).toString();
+        if (sizePropertiesList > 0) {
+            String propertiesStr = propertiesList.get(sizePropertiesList).toString();
+            if (checkTransition(propertiesStr)) {
+                final String str = propertiesList.get(sizePropertiesList).toString();
                 final StringBuilder config = new StringBuilder(str.replace(">", yamlConfiguration));
-                propertiesList.set(size, config);
+                propertiesList.set(sizePropertiesList, config);
                 return true;
             }
         }
         return false;
-    }
-
-    private boolean checkYamlAttribute(String yamlConfiguration) {
-        int countYamlAttribure = yamlConfiguration.split(":").length;
-        if (countYamlAttribure > 1)
-            return true;
-        else return false;
-    }
-
-    private String getYamlAttribute(String yamlConfiguration) {
-        return yamlConfiguration.replace(":", "").trim();
-    }
-
-    private String getKeyValue(String yamlConfiguration) {
-        yamlConfiguration = yamlConfiguration.replace(":", "=").
-                replace(" ", "").replace("\"", "");
-        return yamlConfiguration;
-    }
-
-    private int getCountSpace(String str) {
-        int countSpace = 0;
-        for (char symbol : str.toCharArray()) {
-            if (symbol == ' ') countSpace++;
-            else return countSpace;
-        }
-        return countSpace;
     }
 
     private void clearConfiguration(int countSpace) {
