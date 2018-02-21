@@ -1,31 +1,35 @@
 package file;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class ReadFile {
-    private BufferedReader reader;
+    private static final Logger LOG = LoggerFactory.getLogger(ReadFile.class);
+    private final String PATH_FILE_YAML;
+    private List<String> yamlFile;
 
-    private void openFile(String patch) throws FileNotFoundException {
-        this.reader = new BufferedReader(new FileReader(patch));
+    public ReadFile(String path) {
+        PATH_FILE_YAML = path;
+        yamlFile = new ArrayList<>();
     }
 
-    public List<String> readYaml(String path) throws IOException {
-        openFile(path);
-        String line;
-        List<String> fileYaml = new ArrayList<>();
-        while ((line = reader.readLine()) != null) {
-            fileYaml.add(line);
+    public List<String> readYaml() throws IOException {
+        try (Stream<String> stream = Files.lines(Paths.get(PATH_FILE_YAML))) {
+            yamlFile = stream
+                    .filter(line -> !line.isEmpty() && !line.matches("^[#;].*") )
+                    .collect(Collectors.toList());
+        } catch (IOException e) {
+            LOG.error(e.getMessage());
         }
-        closeFile();
-        return fileYaml;
+        return yamlFile;
     }
 
-    private void closeFile() throws IOException {
-        this.reader.close();
-    }
 }

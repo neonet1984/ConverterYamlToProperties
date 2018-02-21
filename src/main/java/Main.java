@@ -9,26 +9,24 @@ import java.util.Properties;
 
 public class Main {
     private static final String path = "src\\main\\resources\\app.properties";
-    private static Properties properties;
     private static ReadFile readFile;
     private static WriteFile writeFile;
     private static Parser parser;
 
-    private static void init() {
-        properties = new Properties();
-        readFile = new ReadFile();
+    private static void init() throws IOException {
+        Properties properties = new Properties();
+        properties.load(new FileInputStream(path));
+        final String inputFile = properties.getProperty("input.file");
+        final String outputFile = properties.getProperty("output.file");
+        readFile = new ReadFile(inputFile);
         parser = new Parser();
-        writeFile = new WriteFile();
+        writeFile = new WriteFile(outputFile);
     }
 
     public static void main(String[] args) throws IOException {
         init();
-        properties.load(new FileInputStream(path));
-        String intupFile = properties.getProperty("input.file");
-        String outputFile = properties.getProperty("output.file");
-        List yamlFile = readFile.readYaml(intupFile);
-        List<StringBuilder> propertiesList = parser.yamlToProperties(yamlFile);
-        writeFile.writeFile(propertiesList, outputFile);
+        List<StringBuilder> propertiesList = parser.yamlToProperties(readFile.readYaml());
+        writeFile.writeFile(propertiesList);
     }
 
 }

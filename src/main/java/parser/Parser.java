@@ -9,13 +9,12 @@ public class Parser {
     private List<StringBuilder> propertiesList;
 
     public Parser() {
-        this.propertiesList = new ArrayList<>();
-        this.yamlListAttributes = new ArrayList<>();
+        propertiesList = new ArrayList<>();
+        yamlListAttributes = new ArrayList<>();
     }
 
     public List<StringBuilder> yamlToProperties(List<String> yamlListConfiguration) {
         for (String yamlConfiguration : yamlListConfiguration) {
-            if (checkAttripute(yamlConfiguration)) continue;
             if (!checkYamlAttribute(yamlConfiguration)) {
                 addYamlAttributes(yamlConfiguration);
             } else {
@@ -26,20 +25,39 @@ public class Parser {
     }
 
     private void addYamlAttributes(String yamlConfiguration) {
-        int countSpace = this.getCountSpace(yamlConfiguration);
+        int countSpace = getCountSpace(yamlConfiguration);
         clearConfiguration(countSpace);
-        String yamlAttribute = this.getYamlAttribute(yamlConfiguration);
+        final String yamlAttribute = getYamlAttribute(yamlConfiguration);
         yamlListAttributes.add(new YamlModel(countSpace, yamlAttribute));
     }
 
     private void setPropertiesList(String yamlConfiguration) {
-        StringBuilder propertiesConfig = new StringBuilder();
-        int countSpace = getCountSpace(yamlConfiguration);
-        yamlListAttributes.stream()
-                .filter(item -> item.getCountSpace() < countSpace)
-                .forEach(item -> propertiesConfig.append(item.getYamlAttribute() + "."));
-        propertiesConfig.append(getKeyValue(yamlConfiguration));
-        propertiesList.add(propertiesConfig);
+        if (!addAtttribute(yamlConfiguration)) {
+            StringBuilder propertiesConfig = new StringBuilder();
+            int countSpace = getCountSpace(yamlConfiguration);
+            clearConfiguration(countSpace);
+            yamlListAttributes.stream()
+                    .filter(item -> item.getCountSpace() < countSpace)
+                    .forEach(item -> propertiesConfig.append(item.getYamlAttribute() + "."));
+            propertiesConfig.append(getKeyValue(yamlConfiguration));
+            propertiesList.add(propertiesConfig);
+        }
+    }
+
+    private boolean addAtttribute(String yamlConfiguration) {
+        final int size = propertiesList.size() - 1;
+        yamlConfiguration = yamlConfiguration.trim();
+        final char[] mas;
+        if (size > 0) {
+            mas = propertiesList.get(size).toString().toCharArray();
+            if (mas.length > 0 && mas[mas.length - 1] == '>') {
+                final String str = propertiesList.get(size).toString();
+                final StringBuilder config = new StringBuilder(str.replace(">", yamlConfiguration));
+                propertiesList.set(size, config);
+                return true;
+            }
+        }
+        return false;
     }
 
     private boolean checkYamlAttribute(String yamlConfiguration) {
@@ -63,20 +81,13 @@ public class Parser {
         int countSpace = 0;
         for (char symbol : str.toCharArray()) {
             if (symbol == ' ') countSpace++;
+            else return countSpace;
         }
         return countSpace;
     }
 
-    private boolean checkAttripute(String str) {
-        if (str.isEmpty()) return false;
-        for (char symbol : str.toCharArray()) {
-            if (symbol == '#') return true;
-        }
-        return false;
-    }
-
     private void clearConfiguration(int countSpace) {
-        this.yamlListAttributes.removeIf(item -> item.getCountSpace() >= countSpace);
+        yamlListAttributes.removeIf(item -> item.getCountSpace() >= countSpace);
     }
 
 }

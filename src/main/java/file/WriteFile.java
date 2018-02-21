@@ -9,8 +9,13 @@ import java.util.List;
 
 public class WriteFile {
     private static final Logger LOG = LoggerFactory.getLogger(WriteFile.class);
+    private final String path;
 
-    public void writeFile(List<StringBuilder> prop, String path) {
+    public WriteFile(String path){
+        this.path = path;
+    }
+
+    public void writeFile(List<StringBuilder> prop) {
         try (FileWriter writer = new FileWriter(path, false)) {
             for (StringBuilder propertiesConfiguration : prop) {
                 writer.write(propertiesConfiguration.toString());
