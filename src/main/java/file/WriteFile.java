@@ -11,7 +11,7 @@ public class WriteFile {
     private static final Logger LOG = LoggerFactory.getLogger(WriteFile.class);
     private final String path;
 
-    public WriteFile(String path){
+    public WriteFile(String path) {
         this.path = path;
     }
 
@@ -23,7 +23,7 @@ public class WriteFile {
             }
             writer.flush();
         } catch (IOException e) {
-            LOG.error(e.getMessage());
+            LOG.error("Error writing file ", e);
         }
     }
 }

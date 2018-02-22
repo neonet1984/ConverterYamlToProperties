@@ -1,65 +1,65 @@
 package parser;
 
 import model.*;
-
+import parser.utils.UtilsParsing;
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class Parser extends AuxiliaryFuntionalParsing {
-    private List<YamlModel> yamlListAttributes = new ArrayList<>();
-    private List<StringBuilder> propertiesList = new ArrayList<>();
+public class Parser {
+    private List<YamlModel> yamlAttributes = new ArrayList<>();
+    private List<StringBuilder> convertProperties = new ArrayList<>();
 
-    public List<StringBuilder> yamlToProperties(List<String> yamlListConfiguration) {
-        yamlListConfiguration.forEach(yamlStrConfig -> parsing(yamlStrConfig));
-        return propertiesList;
+    public List<StringBuilder> yamlToProperties(List<String> yamlList) {
+        yamlList.forEach(yamlStr -> parsing(yamlStr));
+        return convertProperties;
     }
 
-    private void parsing(String yamlStrConfig) {
-        if (!checkYamlAttribute(yamlStrConfig)) {
-            addYamlAttributes(yamlStrConfig);
+    private void parsing(String yamlStr) {
+        if (!UtilsParsing.checkYamlAttribute(yamlStr)) {
+            addYamlAttributes(yamlStr);
         } else {
-            setPropertiesStr(yamlStrConfig);
+            setPropertiesStr(yamlStr);
         }
     }
 
-    private void addYamlAttributes(String yamlStrConfig) {
-        int countSpace = getCountSpace(yamlStrConfig);
-        clearConfiguration(countSpace);
-        final String yamlAttribute = getYamlAttribute(yamlStrConfig);
-        yamlListAttributes.add(new YamlModel(countSpace, yamlAttribute));
+    private void addYamlAttributes(String yamlStr) {
+        int countSpace = UtilsParsing.getCountSpace(yamlStr);
+        clearYamlAttributes(countSpace);
+        final String yamlAttribute = UtilsParsing.getYamlAttribute(yamlStr);
+        yamlAttributes.add(new YamlModel(countSpace, yamlAttribute));
     }
 
-    private void setPropertiesStr(String yamlConfiguration) {
-        if (!addAtttribute(yamlConfiguration)) {
+    private void setPropertiesStr(String yamlAttribure) {
+        if (!addAtttribute(yamlAttribure)) {
             StringBuilder propertiesConfig = new StringBuilder();
-            int countSpace = getCountSpace(yamlConfiguration);
-            clearConfiguration(countSpace);
-            yamlListAttributes.stream()
+            int countSpace = UtilsParsing.getCountSpace(yamlAttribure);
+            clearYamlAttributes(countSpace);
+            yamlAttributes.stream()
                     .filter(item -> item.getCountSpace() < countSpace)
                     .forEach(item -> propertiesConfig.append(item.getYamlAttribute() + "."));
-            propertiesConfig.append(getKeyValue(yamlConfiguration));
-            propertiesList.add(propertiesConfig);
+            propertiesConfig.append(UtilsParsing.getKeyValue(yamlAttribure));
+            convertProperties.add(propertiesConfig);
         }
     }
 
     private boolean addAtttribute(String yamlConfiguration) {
-        final int sizePropertiesList = propertiesList.size() - 1;
+        final int sizePropertiesList = convertProperties.size() - 1;
         yamlConfiguration = yamlConfiguration.trim();
         if (sizePropertiesList > 0) {
-            String propertiesStr = propertiesList.get(sizePropertiesList).toString();
-            if (checkTransition(propertiesStr)) {
-                final String str = propertiesList.get(sizePropertiesList).toString();
+            String propertiesStr = convertProperties.get(sizePropertiesList).toString();
+            if (UtilsParsing.checkTransition(propertiesStr)) {
+                final String str = convertProperties.get(sizePropertiesList).toString();
                 final StringBuilder config = new StringBuilder(str.replace(">", yamlConfiguration));
-                propertiesList.set(sizePropertiesList, config);
+                convertProperties.set(sizePropertiesList, config);
                 return true;
             }
         }
         return false;
     }
 
-    private void clearConfiguration(int countSpace) {
-        yamlListAttributes.removeIf(item -> item.getCountSpace() >= countSpace);
+    private void clearYamlAttributes(int countSpace) {
+        yamlAttributes.removeIf(item -> item.getCountSpace() >= countSpace);
     }
 
 }

@@ -21,13 +21,13 @@ public class ReadFile {
         yamlFile = new ArrayList<>();
     }
 
-    public List<String> readYaml() throws IOException {
+    public List<String> readYaml() {
         try (Stream<String> stream = Files.lines(Paths.get(PATH_FILE_YAML))) {
             yamlFile = stream
                     .filter(line -> !line.isEmpty() && !line.matches("^[#;].*") )
                     .collect(Collectors.toList());
         } catch (IOException e) {
-            LOG.error(e.getMessage());
+            LOG.error("Error reading file",e);
         }
         return yamlFile;
     }
