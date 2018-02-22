@@ -1,46 +1,36 @@
 package parser.utils;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import static java.util.regex.Pattern.compile;
 
 public class UtilsParsing {
 
     public static boolean checkYamlAttribute(String yamlConfiguration) {
-        yamlConfiguration = yamlConfiguration.trim();
-        int countYamlAttribure = yamlConfiguration.split(":").length;
-        if (countYamlAttribure > 1) {
-            return true;
-        } else {
-            return false;
-        }
+        int countYamlAttribure = yamlConfiguration.trim().split(":").length;
+        return (countYamlAttribure > 1);
     }
 
     public static int getCountSpace(String str) {
         int countSpace = 0;
         for (char symbol : str.toCharArray()) {
-            if (symbol == ' ') {
-                countSpace++;
-            } else {
+            if (symbol != ' ') {
                 return countSpace;
             }
+            countSpace++;
         }
         return countSpace;
     }
 
-    public static String getYamlAttribute(String yamlConfiguration) {
-        return yamlConfiguration.replace(":", "").trim();
+    public static String getYamlAttribute(String yamlLine) {
+        return yamlLine.replace(":", "").trim();
     }
 
-    public static String getKeyValue(String yamlConfiguration) {
-        yamlConfiguration = yamlConfiguration.replace(":", "=").
+    public static String getKeyValue(String yamlLine) {
+        return yamlLine.replace(":", "=").
                 replace(" ", "").replace("\"", "");
-        return yamlConfiguration;
     }
 
-    public static boolean checkTransition(String propertiesStr) {
-        Pattern pattern = Pattern.compile(".*=>");
-        Matcher matcher = pattern.matcher(propertiesStr);
-        return matcher.matches();
+    public static boolean checkTransition(String propertiesLine) {
+        return compile(".*=>").matcher(propertiesLine).matches();
     }
 
 }

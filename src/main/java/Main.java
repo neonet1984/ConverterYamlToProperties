@@ -1,5 +1,7 @@
-import file.ReadFile;
-import file.WriteFile;
+import file.IReader;
+import file.IWriter;
+import file.PropertiesWriter;
+import file.YamlReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import parser.Parser;
@@ -10,35 +12,32 @@ import java.util.List;
 import java.util.Properties;
 
 public class Main {
-    private static final Logger LOG = LoggerFactory.getLogger(Main.class);
+    private static final Logger Log = LoggerFactory.getLogger(Main.class);
     private static final String PATH = "app.properties";
-    private static ReadFile readFile;
-    private static WriteFile writeFile;
-    private static Parser parser = new Parser();
+    private static IReader yamlReader;
+    private static IWriter propertiesWriter;
 
     private static void init() {
         Properties properties = new Properties();
         try {
             properties.load(new FileInputStream(PATH));
         } catch (IOException e) {
-            LOG.error("Can not read configuration file ", e);
+            Log.error("Can not yamlReader configuration file ", e);
         }
         final String inputFile = properties.getProperty("input.file");
         final String outputFile = properties.getProperty("output.file");
-        readFile = new ReadFile(inputFile);
-        writeFile = new WriteFile(outputFile);
+        yamlReader = new YamlReader(inputFile);
+        propertiesWriter = new PropertiesWriter(outputFile);
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         init();
-        LOG.info("Start parsing");
+        Log.info("Start parsing");
         long start = System.currentTimeMillis();
-        List<StringBuilder> propertiesList = parser.yamlToProperties(readFile.readYaml());
-        writeFile.writeFile(propertiesList);
-        long finish = System.currentTimeMillis();
-        long timeConsumedMillis = finish - start;
-        LOG.info("End parsing");
-        LOG.info("Execution time of the program: " + timeConsumedMillis + " ms");
+        List<StringBuilder> propertiesLines = new Parser().yamlToProperties(yamlReader.read());
+        propertiesWriter.write(propertiesLines);
+        Log.info("End parsing");
+        Log.info("Execution time of the program: " + (System.currentTimeMillis() - start) + " ms");
     }
 
 }
