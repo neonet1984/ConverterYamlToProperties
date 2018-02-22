@@ -6,10 +6,18 @@ import parser.utils.UtilsParsing;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The Parser class is used to convert yaml to properties
+ */
 public class Parser {
     private List<YamlModel> yamlAttributes = new ArrayList<>();
     private List<StringBuilder> properties = new ArrayList<>();
 
+    /**
+     * The method overrides yaml in properties
+     * @param yamlList List contains yaml
+     * @return Returns the converted properties
+     */
     public List<StringBuilder> yamlToProperties(List<String> yamlList) {
         yamlList.forEach(this::parsing);
         return properties;

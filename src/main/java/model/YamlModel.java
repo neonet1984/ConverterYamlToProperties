@@ -1,5 +1,9 @@
 package model;
 
+/**
+ * The class is used to store yaml attributes and the
+ * number of spaces at the beginning of the yaml line
+ */
 public class YamlModel {
     private int countSpace;
     private String yamlAttribute;
