@@ -29,10 +29,10 @@ public class YamlReader implements IReader<String> {
      */
     @Override
     public List<String> read() {
-        Predicate<String> predicate = line -> !line.isEmpty() && !line.matches("^[#;].*");
+        Predicate<String> predicateForFilter = line -> !line.isEmpty() && !line.matches("^[#;].*");
         try (Stream<String> stream = Files.lines(Paths.get(PATH_FILE_YAML))) {
             return stream
-                    .filter(predicate)
+                    .filter(predicateForFilter)
                     .collect(Collectors.toList());
         } catch (IOException e) {
             Log.error("Error reading file", e);

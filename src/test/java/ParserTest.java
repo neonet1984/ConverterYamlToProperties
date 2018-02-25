@@ -18,7 +18,7 @@ public class ParserTest {
 
     @Test
     public void Test() {
-        String actual = parser.yamlToProperties(inputData).toString();
+        String actual = parser.getConvertedPropertiesFromYaml(inputData).toString();
         String expected = getExpectedData().toString();
         Assert.assertTrue(actual.equals(expected));
     }

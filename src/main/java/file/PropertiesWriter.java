@@ -29,8 +29,7 @@ public class PropertiesWriter implements IWriter<StringBuilder> {
      */
     @Override
     public void write(List<StringBuilder> propertiesLines) {
-        propertiesLines.forEach(
-                prop -> {
+        propertiesLines.forEach( prop -> {
                     try {
                         writer.write(prop.toString());
                         writer.append('\n').flush();

@@ -1,18 +1,15 @@
-package parser.utils;
-
-import static java.util.regex.Pattern.compile;
+package parser;
 
 /**
  * Utils class for Prarser class
  */
 public class UtilsParsing {
-
     /**
-     * The method checks the number of attributes in the yaml line
+     * The method checks the count of attributes in the yaml line
      *
-     * @param yamlLine
+     * @param yamlLine line containing yaml attributes
      */
-    public static boolean checkYamlAttribute(String yamlLine) {
+    public static boolean checkYamlLine(String yamlLine) {
         int countYamlAttribure = yamlLine.trim().split(":").length;
         return (countYamlAttribure > 1);
     }
@@ -21,7 +18,7 @@ public class UtilsParsing {
      * The method is used to calculate the number of spaces
      * in at the beginning of the yaml line
      *
-     * @param yamlLine
+     * @param yamlLine line containing yaml attributes
      * @return number of spaces
      */
     public static int getCountSpace(String yamlLine) {
@@ -38,18 +35,17 @@ public class UtilsParsing {
     /**
      * The method is used to get the yaml attribute
      *
-     * @param yamlLine
-     * @return yaml attribute
+     * @param yamlLine line containing yaml attributes
+     * @return yaml key from a yaml line
      */
-    public static String getYamlAttribute(String yamlLine) {
-
+    public static String getYamlKey(String yamlLine) {
         return yamlLine.replace(":", "").trim();
     }
 
     /**
-     * The method is used to get key: value from yaml line
+     * The method is uses to get key: value from yaml line
      *
-     * @param yamlLine
+     * @param yamlLine line containing yaml attributes
      * @return format value: "key: value"
      */
     public static String getKeyValue(String yamlLine) {
@@ -57,13 +53,5 @@ public class UtilsParsing {
                 replace(" ", "").replace("\"", "");
     }
 
-    /**
-     * The method from the properties line checks for the presence of the ">"
-     *
-     * @param propertiesLine
-     */
-    public static boolean checkTransition(String propertiesLine) {
-        return compile(".*=>").matcher(propertiesLine).matches();
-    }
 
 }

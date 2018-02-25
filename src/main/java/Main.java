@@ -34,7 +34,7 @@ public class Main {
         init();
         Log.info("Start parsing");
         long start = System.currentTimeMillis();
-        List<StringBuilder> propertiesLines = new Parser().yamlToProperties(yamlReader.read());
+        List<StringBuilder> propertiesLines = new Parser().getConvertedPropertiesFromYaml(yamlReader.read());
         propertiesWriter.write(propertiesLines);
         Log.info("End parsing");
         Log.info("Execution time of the program: " + (System.currentTimeMillis() - start) + " ms");

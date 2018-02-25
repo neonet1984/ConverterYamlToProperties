@@ -4,13 +4,13 @@ package model;
  * The class is used to store yaml attributes and the
  * number of spaces at the beginning of the yaml line
  */
-public class YamlModel {
+public class Yaml {
     private int countSpace;
-    private String yamlAttribute;
+    private String yamlKey;
 
-    public YamlModel(int countSpace, String yamlAttribute) {
+    public Yaml(int countSpace, String yamlKey) {
         this.countSpace = countSpace;
-        this.yamlAttribute = yamlAttribute;
+        this.yamlKey = yamlKey;
     }
 
     public int getCountSpace() {
@@ -21,11 +21,11 @@ public class YamlModel {
         this.countSpace = countSpace;
     }
 
-    public String getYamlAttribute() {
-        return yamlAttribute;
+    public String getYamlKey() {
+        return yamlKey;
     }
 
-    public void setYamlAttribute(String yamlAttribute) {
-        this.yamlAttribute = yamlAttribute;
+    public void setYamlKey(String yamlKey) {
+        this.yamlKey = yamlKey;
     }
 }
