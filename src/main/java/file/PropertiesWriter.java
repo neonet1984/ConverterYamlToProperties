@@ -7,18 +7,24 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * The class is uses to write properties a file
+ */
 public class PropertiesWriter implements IWriter<StringBuilder> {
-    private static final Logger Log = LoggerFactory.getLogger(PropertiesWriter.class);
+    private static final Logger log = LoggerFactory.getLogger(PropertiesWriter.class);
     private FileWriter writer;
 
+    /**
+     * The constructor opens a file for writing
+     * @param path contains the path to the file that you want to open.
+     */
     public PropertiesWriter(String path) {
         try {
             writer = new FileWriter(path, false);
         } catch (IOException e) {
-            Log.error("Error opening file ", e);
+            log.error("Error opening file ", e);
         }
     }
-
 
     @Override
     public void write(List<StringBuilder> propertiesLines) {
@@ -27,7 +33,7 @@ public class PropertiesWriter implements IWriter<StringBuilder> {
                 writer.write(prop.toString());
                 writer.append('\n').flush();
             } catch (IOException e) {
-                Log.error("error writing to file ", e);
+                log.error("error writing to file ", e);
             }
         });
     }

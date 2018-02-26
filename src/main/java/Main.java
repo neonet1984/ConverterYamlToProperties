@@ -16,21 +16,21 @@ import java.util.Properties;
  */
 public class Main {
     private static final Logger log = LoggerFactory.getLogger(Main.class);
-    private static final String PATH = "app.properties";
     private static IReader yamlReader;
     private static IWriter propertiesWriter;
 
     private static void init() {
         Properties properties = new Properties();
         try {
-            properties.load(new FileInputStream(PATH));
+            properties.load(new FileInputStream(FilePaths.PROPERTIES_FILE));
         } catch (IOException e) {
             log.error("Can not yamlReader configuration file ", e);
         }
-        final String inputFile = properties.getProperty("input.file");
-        final String outputFile = properties.getProperty("output.file");
+        final String inputFile = properties.getProperty(FilePaths.INPUT_FILE);
+        final String outputFile = properties.getProperty(FilePaths.OUTPUT_FILE);
         yamlReader = new YamlReader(inputFile);
         propertiesWriter = new PropertiesWriter(outputFile);
+
     }
 
     /**
@@ -42,8 +42,7 @@ public class Main {
         long start = System.currentTimeMillis();
         List<StringBuilder> propertiesLines = new Parser().getConvertedPropertiesFromYaml(yamlReader.read());
         propertiesWriter.write(propertiesLines);
-        log.info("End parsing");
-        log.info("Execution time of the program: " + (System.currentTimeMillis() - start) + " ms");
+        log.info("End parsing\nExecution time of the program: " + (System.currentTimeMillis() - start) + " ms");
     }
 
 }

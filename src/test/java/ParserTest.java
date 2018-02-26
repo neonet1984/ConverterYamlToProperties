@@ -1,5 +1,4 @@
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import parser.Parser;
 
@@ -10,17 +9,9 @@ import java.util.List;
  * The ParserTest class testing class Parser
  */
 public class ParserTest {
-    private List<String> inputData = new ArrayList<>();
+    private List<String> inputData;
     private List<String> expectedData = new ArrayList<>();
     private Parser parser = new Parser();
-
-    /**
-     * The method to initialize input data
-     */
-    @Before
-    public void init() {
-        inputData = getInputData();
-    }
 
     /**
      * The method tests the Parser class
@@ -33,10 +24,11 @@ public class ParserTest {
     }
 
     private List<String> getInputData() {
-        inputData.add("people:");
-        inputData.add("  personaldata:");
-        inputData.add("      name: \"Evgeny\"");
-        inputData.add("      age: \"20\"");
+        List<String> data = new ArrayList<>();
+        data.add("people:");
+        data.add("  personaldata:");
+        data.add("      name: \"Evgeny\"");
+        data.add("      age: \"20\"");
         return inputData;
     }
 

@@ -9,7 +9,7 @@ public interface IWriter<T> {
     /**
      * The method writes the properties file
      *
-     * @param listLines the input receives a list of rows for writing
+     * @param values the input receives a list of rows for writing
      */
-    void write(List<T> listLines);
+    void write(List<T> values);
 }

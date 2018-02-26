@@ -19,38 +19,38 @@ public class Parser {
      * @return Returns the converted properties
      */
     public List<StringBuilder> getConvertedPropertiesFromYaml(List<String> yamlList) {
-        yamlList = YamlFormator.getFormattedYamlList(yamlList);
+        yamlList = YamlFormatorService.getFormattedYamlList(yamlList);
         yamlList.forEach(this::addToList);
         return propertiesList;
     }
 
-    private void addToList(String yamlLine) {
-        if (!UtilsParsing.checkYamlLine(yamlLine)) {
-            addYamlLineToYamlListKeys(yamlLine);
+    private void addToList(String line) {
+        if (!UtilsParsing.checkYamlLine(line)) {
+            addYamlLineToYamlListKeys(line);
         } else {
-            addPropertiesList(yamlLine);
+            addPropertiesList(line);
         }
     }
 
-    private void addYamlLineToYamlListKeys(String yamlLine) {
-        int countSpace = UtilsParsing.getCountSpace(yamlLine);
+    private void addYamlLineToYamlListKeys(String line) {
+        int countSpace = UtilsParsing.getCountSpace(line);
         deleateYamlKey(countSpace);
-        yamlKeys.add(new Yaml(countSpace, UtilsParsing.getYamlKey(yamlLine)));
+        yamlKeys.add(new Yaml(countSpace, UtilsParsing.getYamlKey(line)));
     }
 
-    private void addPropertiesList(String yamlLine) {
+    private void addPropertiesList(String line) {
         StringBuilder propertiesKeyValue = new StringBuilder();
-        int countSpace = UtilsParsing.getCountSpace(yamlLine);
+        int countSpace = UtilsParsing.getCountSpace(line);
         deleateYamlKey(countSpace);
         yamlKeys.stream()
                 .filter(yaml -> yaml.getCountSpace() < countSpace)
                 .forEach(yaml -> propertiesKeyValue.append(yaml.getYamlKey() + "."));
-        propertiesKeyValue.append(UtilsParsing.getKeyValue(yamlLine));
+        propertiesKeyValue.append(UtilsParsing.getKeyValue(line));
         propertiesList.add(propertiesKeyValue);
     }
 
     private void deleateYamlKey(int countSpace) {
-        yamlKeys.removeIf(yaml -> yaml.getCountSpace() >= countSpace);
+        yamlKeys.removeIf(line -> line.getCountSpace() >= countSpace);
     }
 
 }
