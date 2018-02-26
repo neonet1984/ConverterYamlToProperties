@@ -50,7 +50,7 @@ public class Parser {
     }
 
     private void deleateYamlKey(int countSpace) {
-        yamlKeys.removeIf(yamlKey -> yamlKey.getCountSpace() >= countSpace);
+        yamlKeys.removeIf(yaml -> yaml.getCountSpace() >= countSpace);
     }
 
 }

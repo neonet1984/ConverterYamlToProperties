@@ -11,8 +11,11 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Properties;
 
+/**
+ * The Main class is uses as an entry point to the program
+ */
 public class Main {
-    private static final Logger Log = LoggerFactory.getLogger(Main.class);
+    private static final Logger log = LoggerFactory.getLogger(Main.class);
     private static final String PATH = "app.properties";
     private static IReader yamlReader;
     private static IWriter propertiesWriter;
@@ -22,7 +25,7 @@ public class Main {
         try {
             properties.load(new FileInputStream(PATH));
         } catch (IOException e) {
-            Log.error("Can not yamlReader configuration file ", e);
+            log.error("Can not yamlReader configuration file ", e);
         }
         final String inputFile = properties.getProperty("input.file");
         final String outputFile = properties.getProperty("output.file");
@@ -30,14 +33,17 @@ public class Main {
         propertiesWriter = new PropertiesWriter(outputFile);
     }
 
+    /**
+     * The Main class is uses as an entry point to the program
+     */
     public static void main(String[] args) {
         init();
-        Log.info("Start parsing");
+        log.info("Start parsing");
         long start = System.currentTimeMillis();
         List<StringBuilder> propertiesLines = new Parser().getConvertedPropertiesFromYaml(yamlReader.read());
         propertiesWriter.write(propertiesLines);
-        Log.info("End parsing");
-        Log.info("Execution time of the program: " + (System.currentTimeMillis() - start) + " ms");
+        log.info("End parsing");
+        log.info("Execution time of the program: " + (System.currentTimeMillis() - start) + " ms");
     }
 
 }

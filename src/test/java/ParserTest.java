@@ -2,20 +2,29 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import parser.Parser;
+
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * The ParserTest class testing class Parser
+ */
 public class ParserTest {
-    private List<String> inputData = new ArrayList<>();;
+    private List<String> inputData = new ArrayList<>();
     private List<String> expectedData = new ArrayList<>();
     private Parser parser = new Parser();
 
+    /**
+     * The method to initialize input data
+     */
     @Before
     public void init() {
         inputData = getInputData();
     }
 
+    /**
+     * The method tests the Parser class
+     */
     @Test
     public void Test() {
         String actual = parser.getConvertedPropertiesFromYaml(inputData).toString();
@@ -30,7 +39,8 @@ public class ParserTest {
         inputData.add("      age: \"20\"");
         return inputData;
     }
-    private List<String> getExpectedData(){
+
+    private List<String> getExpectedData() {
         expectedData.add("people.personaldata.name=Evgeny");
         expectedData.add("people.personaldata.age=20");
         return expectedData;
