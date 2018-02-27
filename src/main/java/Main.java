@@ -1,4 +1,4 @@
-import com.Application.Application;
+import com.application.Application;
 import com.config.ConfigurationApp;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;

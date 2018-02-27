@@ -1,7 +1,13 @@
+import com.config.ConfigurationApp;
+import com.parser.Parser;
 import com.parser.ParserService;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,11 +15,14 @@ import java.util.List;
 /**
  * The ParserServiceTest class testing class ParserService
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ComponentScan(basePackages = {"com.parser"})
+@ContextConfiguration(classes = ConfigurationApp.class)
 public class ParserServiceTest {
+    @Autowired
+    private Parser parserService;
     private List<String> inputData = getInputData();
     private List<String> expectedData = new ArrayList<>();
-    @Autowired
-    private ParserService parserService;
 
     /**
      * The method tests the ParserService class
@@ -22,7 +31,7 @@ public class ParserServiceTest {
     public void Test() {
         String actual = parserService.getConverterData(inputData).toString();
         String expected = getExpectedData().toString();
-        Assert.assertEquals(actual,expected);
+        Assert.assertEquals(actual, expected);
     }
 
     private List<String> getInputData() {
@@ -31,7 +40,7 @@ public class ParserServiceTest {
         data.add("  personaldata:");
         data.add("      name: \"Evgeny\"");
         data.add("      age: \"20\"");
-        return inputData;
+        return data;
     }
 
     private List<String> getExpectedData() {

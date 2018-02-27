@@ -1,4 +1,4 @@
-package com.Application;
+package com.application;
 
 import com.file.IReader;
 import com.file.IWriter;
@@ -6,6 +6,7 @@ import com.parser.Parser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,23 +18,28 @@ import java.util.Properties;
 @Service
 public class ApplicationService implements Application {
     private static final Logger log = LoggerFactory.getLogger(ApplicationService.class);
-    @Autowired
-    Properties properties;
 
     @Autowired
-    Parser parser;
+    private Properties properties;
 
     @Autowired
-    IReader yamlReader;
+    private Parser parser;
 
     @Autowired
-    IWriter yamlWrite;
+    private IReader yamlReader;
+
+    @Autowired
+    private IWriter yamlWrite;
+
+    @Value("${input.file:inputFile.txt}")
+    private String inputFile;
+
+    @Value("${output.file:output.txt}")
+    private String outputFile;
 
     private void init() {
         log.info("initialization");
-        String intputFile = properties.getProperty("input.file");
-        String outputFile = properties.getProperty("output.file");
-        yamlReader.setPath(intputFile);
+        yamlReader.setPath(inputFile);
         yamlWrite.setPath(outputFile);
     }
 

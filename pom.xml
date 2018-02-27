@@ -19,6 +19,7 @@
         <maven-plugins.version>2.5</maven-plugins.version>
         <shade-plugin.version>3.1.0</shade-plugin.version>
         <spring-core.version>5.0.2.RELEASE</spring-core.version>
+        <spring-test.version>4.3.0.RELEASE</spring-test.version>
     </properties>
 
     <dependencies>
@@ -64,7 +65,15 @@
             <artifactId>spring-beans</artifactId>
             <version>${spring-core.version}</version>
         </dependency>
-       </dependencies>
+        <!-- https://mvnrepository.com/artifact/org.springframework/spring-test -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${spring-test.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
     <build>
         <plugins>
             <plugin>

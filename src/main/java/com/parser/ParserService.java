@@ -1,6 +1,8 @@
 package com.parser;
 
 import com.model.Yaml;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +18,7 @@ public class ParserService implements Parser<StringBuilder, String> {
     private YamlFormator yamlFormator;
     private List<Yaml> yamlKeys = new ArrayList<>();
     private List<StringBuilder> propertiesList = new ArrayList<>();
-
+    
     @Override
     public List<StringBuilder> getConverterData(List<String> yamlList) {
         yamlList = yamlFormator.getFormattedList(yamlList);
