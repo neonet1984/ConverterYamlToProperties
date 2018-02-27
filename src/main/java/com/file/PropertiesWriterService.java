@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * The class is uses to write properties a com.file
+ * The class is uses to write properties a file
  */
 @Service
 public class PropertiesWriterService implements IWriter<StringBuilder> {
@@ -23,13 +23,17 @@ public class PropertiesWriterService implements IWriter<StringBuilder> {
                 fileWriter.write(prop.toString());
                 fileWriter.append('\n').flush();
             } catch (IOException e) {
-                log.error("error writing to file ", e);
+                log.error("Error writing to file ", e);
             }
         });
     }
 
     @Override
     public void setPath(String pathToFile) {
+        openFile(pathToFile);
+    }
+
+    private void openFile(String pathToFile) {
         try {
             fileWriter = new FileWriter(pathToFile, false);
         } catch (IOException e) {
