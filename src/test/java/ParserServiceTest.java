@@ -1,26 +1,28 @@
+import com.parser.ParserService;
 import org.junit.Assert;
 import org.junit.Test;
-import parser.Parser;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The ParserTest class testing class Parser
+ * The ParserServiceTest class testing class ParserService
  */
-public class ParserTest {
-    private List<String> inputData;
+public class ParserServiceTest {
+    private List<String> inputData = getInputData();
     private List<String> expectedData = new ArrayList<>();
-    private Parser parser = new Parser();
+    @Autowired
+    private ParserService parserService;
 
     /**
-     * The method tests the Parser class
+     * The method tests the ParserService class
      */
     @Test
     public void Test() {
-        String actual = parser.getConvertedPropertiesFromYaml(inputData).toString();
+        String actual = parserService.getConverterData(inputData).toString();
         String expected = getExpectedData().toString();
-        Assert.assertTrue(actual.equals(expected));
+        Assert.assertEquals(actual,expected);
     }
 
     private List<String> getInputData() {

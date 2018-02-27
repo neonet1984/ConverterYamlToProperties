@@ -1,4 +1,4 @@
-package exeprion;
+package com.exeprion;
 
 /**
  * The ValidatorExeption,  is uses to throw out the validation error

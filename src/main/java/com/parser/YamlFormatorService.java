@@ -1,19 +1,22 @@
-package parser;
+package com.parser;
+
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
- * The YamlFormatorService class is uses to convert yaml to properties
+ * The class to convert to a convenient form of yamlLines, for further parsing
  */
-public class YamlFormatorService implements YamlFormator {
-    private static List<String> lines;
+@Service
+public class YamlFormatorService implements YamlFormator<String> {
+    private List<String> lines;
 
     /**
-     * The method use to use to format yaml
+     * The method use to format yaml
      *
      * @return yamlLines formatted yaml List
      */
-    public static List<String> getFormattedList(List<String> list) {
+    public List<String> getFormattedList(List<String> list) {
         lines = list;
         for (int indexLine = 0; indexLine < list.size(); indexLine++) {
             formatYamlList(indexLine);
@@ -21,7 +24,7 @@ public class YamlFormatorService implements YamlFormator {
         return list;
     }
 
-    private static void formatYamlList(int indexLine) {
+    private void formatYamlList(int indexLine) {
         if (lines.get(indexLine).matches(".*>")) {
             String yamlLineOne = lines.get(indexLine);
             String yamlLineTwo = lines.get(indexLine + 1);

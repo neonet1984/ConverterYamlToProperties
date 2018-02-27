@@ -1,25 +1,25 @@
-package parser;
+package com.parser;
 
-import model.Yaml;
+import com.model.Yaml;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The Parser class is uses to convert yaml to properties
+ * The ParserService class is uses to convert yaml to properties
  */
-public class Parser {
+@Service
+public class ParserService implements Parser<StringBuilder, String> {
+    @Autowired
+    private YamlFormator yamlFormator;
     private List<Yaml> yamlKeys = new ArrayList<>();
     private List<StringBuilder> propertiesList = new ArrayList<>();
 
-    /**
-     * The method overrides yaml in properties
-     *
-     * @param yamlList List contains yaml
-     * @return Returns the converted properties
-     */
-    public List<StringBuilder> getConvertedPropertiesFromYaml(List<String> yamlList) {
-        yamlList = YamlFormatorService.getFormattedYamlList(yamlList);
+    @Override
+    public List<StringBuilder> getConverterData(List<String> yamlList) {
+        yamlList = yamlFormator.getFormattedList(yamlList);
         yamlList.forEach(this::addToList);
         return propertiesList;
     }
@@ -52,5 +52,6 @@ public class Parser {
     private void deleateYamlKey(int countSpace) {
         yamlKeys.removeIf(line -> line.getCountSpace() >= countSpace);
     }
+
 
 }
