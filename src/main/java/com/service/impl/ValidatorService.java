@@ -1,7 +1,10 @@
-package com.parser;
+package com.service.impl;
 
+import com.parser.UtilsParsing;
+import com.service.IValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.function.Predicate;
@@ -9,7 +12,8 @@ import java.util.function.Predicate;
 /**
  * The YamlValidatorService class is uses to check the yaml lines, on correctness
  */
-public class ValidatorService implements Validator<String> {
+@Service
+public class ValidatorService implements IValidator<String> {
     private static final Logger log = LoggerFactory.getLogger(ValidatorService.class);
 
     /**
@@ -18,16 +22,18 @@ public class ValidatorService implements Validator<String> {
      *
      * @param yamlLines List contains yaml
      */
+    @Override
     public void checkLines(List<String> yamlLines) {
-        if (!isVerificationYamlList(yamlLines))
-            log.error("Not a valid file");
+        if (!isValidYamlList(yamlLines)) {
+            log.error("Is not valid yaml");
+        }
     }
 
-    private boolean isVerificationYamlList(List<String> yamlLines) {
-        Predicate<String> predicateForFilter = yamlLine -> UtilsParsing.getCountSpace(yamlLine) % 4 != 0;
+    private boolean isValidYamlList(List<String> yamlLines) {
+        Predicate<String> expectedCountSpace = yamlLine -> UtilsParsing.getCountSpace(yamlLine) % 4 != 0;
         return yamlLines.stream()
-                .filter(predicateForFilter)
-                .count() == 0;
+                .noneMatch(expectedCountSpace);
+
     }
 
 }

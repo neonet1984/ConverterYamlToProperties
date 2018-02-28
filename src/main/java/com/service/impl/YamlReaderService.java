@@ -1,5 +1,6 @@
-package com.file;
+package com.service.impl;
 
+import com.service.IReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,7 @@ public class YamlReaderService implements IReader<String> {
 
     @Override
     public List<String> read() {
-        Predicate<String> predicateForFilter = line -> line.isEmpty() && !checkForComments(line);
+        Predicate<String> predicateForFilter = line -> !line.isEmpty() && !checkForComments(line);
         try (Stream<String> stream = Files.lines(Paths.get(pathFileYaml))) {
             return stream
                     .filter(predicateForFilter)

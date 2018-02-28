@@ -1,5 +1,6 @@
-package com.parser;
+package com.service.impl;
 
+import com.service.IYamlFormator;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -8,7 +9,7 @@ import java.util.List;
  * The class to convert to a convenient form of yamlLines, for further parsing
  */
 @Service
-public class YamlFormatorService implements YamlFormator<String> {
+public class YamlFormatorService implements IYamlFormator<String> {
     private List<String> lines;
 
     /**

@@ -1,5 +1,6 @@
-package com.file;
+package com.service.impl;
 
+import com.service.IWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,7 @@ public class PropertiesWriterService implements IWriter<StringBuilder> {
                 log.error("Error writing to file ", e);
             }
         });
+        closeFile();
     }
 
     @Override
@@ -38,6 +40,14 @@ public class PropertiesWriterService implements IWriter<StringBuilder> {
             fileWriter = new FileWriter(pathToFile, false);
         } catch (IOException e) {
             log.error("Error opening file ", e);
+        }
+    }
+
+    private void closeFile() {
+        try {
+            fileWriter.close();
+        } catch (IOException e) {
+            log.error("Error closing file", e.getMessage());
         }
     }
 }

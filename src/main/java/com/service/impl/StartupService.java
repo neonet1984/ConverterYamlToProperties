@@ -1,8 +1,9 @@
-package com.application;
+package com.service.impl;
 
-import com.file.IReader;
-import com.file.IWriter;
-import com.parser.Parser;
+import com.service.IParser;
+import com.service.IReader;
+import com.service.IStartup;
+import com.service.IWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,32 +11,33 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Properties;
+
 
 /**
  * The class encapsulates read file,parsing file and write file
  */
 @Service
-public class ApplicationService implements Application {
-    private static final Logger log = LoggerFactory.getLogger(ApplicationService.class);
+public class StartupService implements IStartup {
+    private static final Logger log = LoggerFactory.getLogger(StartupService.class);
 
-    @Autowired
-    private Properties properties;
+    private final IParser IParser;
 
-    @Autowired
-    private Parser parser;
+    private final IReader yamlReader;
 
-    @Autowired
-    private IReader yamlReader;
-
-    @Autowired
-    private IWriter yamlWrite;
+    private final IWriter yamlWrite;
 
     @Value("${input.file:inputFile.txt}")
     private String inputFile;
 
     @Value("${output.file:output.txt}")
     private String outputFile;
+
+    @Autowired
+    public StartupService(IParser IParser, IReader yamlReader, IWriter yamlWrite) {
+        this.IParser = IParser;
+        this.yamlReader = yamlReader;
+        this.yamlWrite = yamlWrite;
+    }
 
     private void init() {
         log.info("initialization");
@@ -50,7 +52,7 @@ public class ApplicationService implements Application {
         log.info("Read file");
         List<String> yamlLines = yamlReader.read();
         log.info("Start parsing");
-        yamlWrite.write(parser.getConverterData(yamlLines));
+        yamlWrite.write(IParser.getConverterData(yamlLines));
         log.info("End parsing\nExecution time of the program: " + (System.currentTimeMillis() - start) + " ms");
     }
 }

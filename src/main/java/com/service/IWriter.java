@@ -1,13 +1,12 @@
-package com.file;
+package com.service;
 
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
  * The interface is uses to write a com.file
  */
-@Service
+
 public interface IWriter<T> {
     /**
      * The method writes the properties com.file

@@ -1,14 +1,12 @@
-package com.parser;
+package com.service;
 
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
- * The Parser  is uses to convert
+ * The IParser  is uses to convert
  */
-@Service
-public interface Parser<T, O> {
+public interface IParser<T, O> {
     /**
      * The method overrides yaml in properties
      *

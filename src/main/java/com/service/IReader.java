@@ -1,13 +1,12 @@
-package com.file;
+package com.service;
 
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
  * The interface is uses to read a com.file
  */
-@Service
+
 public interface IReader<T> {
     /**
      * The method read the  file

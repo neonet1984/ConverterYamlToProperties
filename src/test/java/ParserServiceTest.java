@@ -1,6 +1,5 @@
-import com.config.ConfigurationApp;
-import com.parser.Parser;
-import com.parser.ParserService;
+import com.config.AppConfig;
+import com.service.IParser;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,23 +12,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The ParserServiceTest class testing class ParserService
+ * The ParserServiceTest class testing class IParserService
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ComponentScan(basePackages = {"com.parser"})
-@ContextConfiguration(classes = ConfigurationApp.class)
+@ComponentScan(basePackages = {"com.service"})
+@ContextConfiguration(classes = AppConfig.class)
 public class ParserServiceTest {
     @Autowired
-    private Parser parserService;
+    private IParser IParserService;
     private List<String> inputData = getInputData();
     private List<String> expectedData = new ArrayList<>();
 
     /**
-     * The method tests the ParserService class
+     * The method tests the IParserService class
      */
     @Test
-    public void Test() {
-        String actual = parserService.getConverterData(inputData).toString();
+    public void test() {
+        String actual = IParserService.getConverterData(inputData).toString();
         String expected = getExpectedData().toString();
         Assert.assertEquals(actual, expected);
     }
