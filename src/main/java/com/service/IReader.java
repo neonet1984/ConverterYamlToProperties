@@ -6,14 +6,13 @@ import java.util.List;
 /**
  * The interface is uses to read a com.file
  */
-
-public interface IReader<T> {
+public interface IReader {
     /**
-     * The method read the  file
+     * The method read the file
      *
-     * @return List<T> read lines
+     * @return List<String> read lines
      */
-    List<T> read();
+    List<String> read();
 
     /**
      * The method sets the path to the file

@@ -18,7 +18,7 @@ import java.util.stream.Stream;
  * The class is uses to reader yaml a file
  */
 @Service
-public class YamlReaderService implements IReader<String> {
+public class YamlReaderService implements IReader {
     private static final Logger log = LoggerFactory.getLogger(YamlReaderService.class);
     private String pathFileYaml;
 

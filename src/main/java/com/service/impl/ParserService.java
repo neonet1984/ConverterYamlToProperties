@@ -12,24 +12,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The IParserService class is uses to convert yaml to properties
+ * The ParserService class is uses to convert yaml to properties
  */
 @Service
-public class ParserService implements IParser<StringBuilder, String> {
-    private final IYamlFormator IYamlFormator;
-    private final IValidator IValidator;
+public class ParserService implements IParser {
+    private final IYamlFormator yamlFormator;
+    private final IValidator yamlValidator;
     private List<Yaml> yamlKeys = new ArrayList<>();
     private List<StringBuilder> propertiesList = new ArrayList<>();
 
     @Autowired
-    public ParserService(IYamlFormator IYamlFormator, IValidator IValidator) {
-        this.IYamlFormator = IYamlFormator;
-        this.IValidator = IValidator;
+    public ParserService(IYamlFormator yamlFormator, IValidator yamlValidator) {
+        this.yamlFormator = yamlFormator;
+        this.yamlValidator = yamlValidator;
     }
 
     @Override
     public List<StringBuilder> getConverterData(List<String> yamlList) {
-        yamlList = IYamlFormator.getFormattedList(yamlList);
+        yamlList = yamlFormator.getFormattedList(yamlList);
         yamlList.forEach(this::addToList);
         return propertiesList;
     }

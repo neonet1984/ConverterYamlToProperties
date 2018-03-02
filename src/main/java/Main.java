@@ -1,5 +1,6 @@
-import com.service.IStartup;
 import com.config.AppConfig;
+import com.service.IFileAdapter;
+import com.service.IParser;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
@@ -12,8 +13,10 @@ public class Main {
      */
     public static void main(String[] args) {
         ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
-        IStartup IStartup = (IStartup) context.getBean("startupService");
-        IStartup.startup();
+        IFileAdapter fileAdapter = (IFileAdapter) context.getBean("fileAdapterService");
+        fileAdapter.init();
+        IParser parser = (IParser) context.getBean("parserService");
+        fileAdapter.write(parser.getConverterData(fileAdapter.readFile()));
     }
 
 }

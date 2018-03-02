@@ -13,7 +13,7 @@ import java.util.function.Predicate;
  * The YamlValidatorService class is uses to check the yaml lines, on correctness
  */
 @Service
-public class ValidatorService implements IValidator<String> {
+public class ValidatorService implements IValidator {
     private static final Logger log = LoggerFactory.getLogger(ValidatorService.class);
 
     /**
@@ -29,9 +29,9 @@ public class ValidatorService implements IValidator<String> {
         }
     }
 
-    private boolean isValidYamlList(List<String> yamlLines) {
-        Predicate<String> expectedCountSpace = yamlLine -> UtilsParsing.getCountSpace(yamlLine) % 4 != 0;
-        return yamlLines.stream()
+    private boolean isValidYamlList(List<String> values) {
+        Predicate<String> expectedCountSpace = line -> UtilsParsing.getCountSpace(line) % 4 != 0;
+        return values.stream()
                 .noneMatch(expectedCountSpace);
 
     }

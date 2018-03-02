@@ -4,14 +4,14 @@ package com.service;
 import java.util.List;
 
 /**
- * The IParser  is uses to convert
+ * The IParser is uses to convert from one format to another
  */
-public interface IParser<T, O> {
+public interface IParser {
     /**
-     * The method overrides yaml in properties
+     * The method convert one format to another
      *
-     * @param list contains a file for conversion
+     * @param list contains a lines for conversion
      * @return returns the converted data
      */
-    List<T> getConverterData(List<O> list);
+    List<StringBuilder> getConverterData(List<String> list);
 }

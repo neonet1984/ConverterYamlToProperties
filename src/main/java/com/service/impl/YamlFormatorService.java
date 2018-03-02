@@ -9,7 +9,7 @@ import java.util.List;
  * The class to convert to a convenient form of yamlLines, for further parsing
  */
 @Service
-public class YamlFormatorService implements IYamlFormator<String> {
+public class YamlFormatorService implements IYamlFormator {
     private List<String> lines;
 
     /**
@@ -22,7 +22,7 @@ public class YamlFormatorService implements IYamlFormator<String> {
         for (int indexLine = 0; indexLine < list.size(); indexLine++) {
             formatYamlList(indexLine);
         }
-        return list;
+        return lines;
     }
 
     private void formatYamlList(int indexLine) {
@@ -34,6 +34,5 @@ public class YamlFormatorService implements IYamlFormator<String> {
             lines.remove(indexLine + 1);
         }
     }
-
 
 }

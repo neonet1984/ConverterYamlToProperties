@@ -10,10 +10,10 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * The class is uses to write properties a file
+ * This class is uses to write lines to a format .properties
  */
 @Service
-public class PropertiesWriterService implements IWriter<StringBuilder> {
+public class PropertiesWriterService implements IWriter{
     private static final Logger log = LoggerFactory.getLogger(PropertiesWriterService.class);
     private FileWriter fileWriter;
 

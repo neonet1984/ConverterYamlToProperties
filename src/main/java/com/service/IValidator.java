@@ -1,16 +1,15 @@
 package com.service;
 
-
-import com.exeprion.ValidatorException;
-
 import java.util.List;
 
 /**
  * The IValidator interface is used to check the list lines, on correctness
  */
-public interface IValidator<T> {
+public interface IValidator {
     /**
      * The method is uses to check the list lines, on correctness
+     *
+     * @param values correctness list lines for check
      */
-    void checkLines(List<T> yamlLines) throws ValidatorException;
+    void checkLines(List<String> values);
 }
