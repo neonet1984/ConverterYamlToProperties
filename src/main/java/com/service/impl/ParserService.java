@@ -5,10 +5,13 @@ import com.parser.UtilsParsing;
 import com.service.IParser;
 import com.service.IValidator;
 import com.service.IYamlFormator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -16,6 +19,7 @@ import java.util.List;
  */
 @Service
 public class ParserService implements IParser {
+    private static final Logger log = LoggerFactory.getLogger(IParser.class);
     private final IYamlFormator yamlFormator;
     private final IValidator yamlValidator;
     private List<Yaml> yamlKeys = new ArrayList<>();
@@ -29,7 +33,12 @@ public class ParserService implements IParser {
 
     @Override
     public List<StringBuilder> getConverterData(List<String> yamlList) {
-        yamlList = yamlFormator.getFormattedList(yamlList);
+        try {
+            yamlList = yamlFormator.getFormattedList(yamlList);
+        } catch (IndexOutOfBoundsException e) {
+            log.error("Error of bringing yaml to the required format", e.getMessage());
+            return Collections.emptyList();
+        }
         yamlList.forEach(this::addToList);
         return propertiesList;
     }
@@ -62,6 +71,4 @@ public class ParserService implements IParser {
     private void deleteYamlKey(int countSpace) {
         yamlKeys.removeIf(line -> line.getCountSpace() >= countSpace);
     }
-
-
 }

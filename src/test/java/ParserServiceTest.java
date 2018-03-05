@@ -19,7 +19,7 @@ import java.util.List;
 @ContextConfiguration(classes = AppConfig.class)
 public class ParserServiceTest {
     @Autowired
-    private IParser IParserService;
+    private IParser parserService;
     private List<String> inputData = getInputData();
     private List<String> expectedData = new ArrayList<>();
 
@@ -28,7 +28,7 @@ public class ParserServiceTest {
      */
     @Test
     public void test() {
-        String actual = IParserService.getConverterData(inputData).toString();
+        String actual = parserService.getConverterData(inputData).toString();
         String expected = getExpectedData().toString();
         Assert.assertEquals(actual, expected);
     }
@@ -47,5 +47,4 @@ public class ParserServiceTest {
         expectedData.add("people.personaldata.age=20");
         return expectedData;
     }
-
 }

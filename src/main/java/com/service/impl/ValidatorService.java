@@ -33,7 +33,5 @@ public class ValidatorService implements IValidator {
         Predicate<String> expectedCountSpace = line -> UtilsParsing.getCountSpace(line) % 4 != 0;
         return values.stream()
                 .noneMatch(expectedCountSpace);
-
     }
-
 }

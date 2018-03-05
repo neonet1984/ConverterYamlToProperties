@@ -18,5 +18,4 @@ public class Main {
         IParser parser = (IParser) context.getBean("parserService");
         fileAdapter.write(parser.getConverterData(fileAdapter.readFile()));
     }
-
 }

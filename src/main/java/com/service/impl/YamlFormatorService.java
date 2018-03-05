@@ -17,7 +17,7 @@ public class YamlFormatorService implements IYamlFormator {
      *
      * @return yamlLines formatted yaml List
      */
-    public List<String> getFormattedList(List<String> list) {
+    public List<String> getFormattedList(List<String> list) throws IndexOutOfBoundsException {
         lines = list;
         for (int indexLine = 0; indexLine < list.size(); indexLine++) {
             formatYamlList(indexLine);
@@ -25,7 +25,7 @@ public class YamlFormatorService implements IYamlFormator {
         return lines;
     }
 
-    private void formatYamlList(int indexLine) {
+    private void formatYamlList(int indexLine) throws IndexOutOfBoundsException  {
         if (lines.get(indexLine).matches(".*>")) {
             String yamlLineOne = lines.get(indexLine);
             String yamlLineTwo = lines.get(indexLine + 1);
