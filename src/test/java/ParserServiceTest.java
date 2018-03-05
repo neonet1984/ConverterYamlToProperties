@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The ParserServiceTest class testing class IParserService
+ * The ParserServiceTest class testing class ParserService
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ComponentScan(basePackages = {"com.service"})
@@ -24,7 +24,7 @@ public class ParserServiceTest {
     private List<String> expectedData = new ArrayList<>();
 
     /**
-     * The method tests the IParserService class
+     * The method tests the ParserService class
      */
     @Test
     public void test() {

@@ -43,7 +43,7 @@ public class FileAdapterService implements IFileAdapter {
 
     @Override
     public void init() {
-        log.info("initialization");
+        log.info("Initialization of services for reading and writing files");
         yamlReader.setPath(inputFile);
         yamlWrite.setPath(outputFile);
     }

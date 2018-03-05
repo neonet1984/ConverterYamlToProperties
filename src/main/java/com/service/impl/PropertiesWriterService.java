@@ -19,6 +19,7 @@ public class PropertiesWriterService implements IWriter{
 
     @Override
     public void write(List<StringBuilder> propertiesLines) {
+        log.info("Write down a .properties file");
         propertiesLines.forEach(prop -> {
             try {
                 fileWriter.write(prop.toString());

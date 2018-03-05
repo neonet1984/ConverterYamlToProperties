@@ -4,7 +4,7 @@ package com.service;
 import java.util.List;
 
 /**
- * The interface is uses to read a com.file
+ * The interface is uses to read a file
  */
 public interface IReader {
     /**

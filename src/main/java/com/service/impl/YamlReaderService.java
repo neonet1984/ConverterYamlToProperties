@@ -24,6 +24,7 @@ public class YamlReaderService implements IReader {
 
     @Override
     public List<String> read() {
+        log.info("Read yaml file");
         Predicate<String> predicateForFilter = line -> !line.isEmpty() && !checkForComments(line);
         try (Stream<String> stream = Files.lines(Paths.get(pathFileYaml))) {
             return stream

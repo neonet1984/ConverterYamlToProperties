@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -19,7 +18,7 @@ import java.util.List;
  */
 @Service
 public class ParserService implements IParser {
-    private static final Logger log = LoggerFactory.getLogger(IParser.class);
+    private static final Logger log = LoggerFactory.getLogger(ParserService.class);
     private final IYamlFormator yamlFormator;
     private final IValidator yamlValidator;
     private List<Yaml> yamlKeys = new ArrayList<>();
@@ -33,13 +32,10 @@ public class ParserService implements IParser {
 
     @Override
     public List<StringBuilder> getConverterData(List<String> yamlList) {
-        try {
-            yamlList = yamlFormator.getFormattedList(yamlList);
-        } catch (IndexOutOfBoundsException e) {
-            log.error("Error of bringing yaml to the required format", e.getMessage());
-            return Collections.emptyList();
-        }
+        log.info("Start parser");
+        yamlList = yamlFormator.getFormattedList(yamlList);
         yamlList.forEach(this::addToList);
+        log.info("End parser");
         return propertiesList;
     }
 
@@ -62,8 +58,8 @@ public class ParserService implements IParser {
         int countSpace = UtilsParsing.getCountSpace(line);
         deleteYamlKey(countSpace);
         yamlKeys.stream()
-                .filter(yaml -> yaml.getCountSpace() < countSpace)
-                .forEach(yaml -> propertiesKeyValue.append(yaml.getYamlKey()).append("."));
+                .filter(key -> key.getCountSpace() < countSpace)
+                .forEach(key -> propertiesKeyValue.append(key.getYamlKey()).append("."));
         propertiesKeyValue.append(UtilsParsing.getKeyValue(line));
         propertiesList.add(propertiesKeyValue);
     }
