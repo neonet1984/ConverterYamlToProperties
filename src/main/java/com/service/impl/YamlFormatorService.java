@@ -6,10 +6,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.stream.IntStream;
-
-import static java.util.stream.Collectors.toList;
-
 /**
  * The class to convert to a convenient form of yamlLines, for further parsing
  */
@@ -39,13 +35,5 @@ public class YamlFormatorService implements IYamlFormator {
             listLines.remove(indexLine + 1);
         }
         return listLines;
-    }
-
-    public static void main(String[] args) {
-        List list = new LinkedList<String>();
-        Map<String,String> n = new HashMap<>();
-        n.put("test","test");
-        n.put("test3","test");
-        System.out.println(n.keySet());
     }
 }
