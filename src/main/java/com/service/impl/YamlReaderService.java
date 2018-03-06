@@ -1,8 +1,9 @@
-package file;
+package com.service.impl;
 
-import org.apache.commons.collections4.CollectionUtils;
+import com.service.IReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -16,18 +17,16 @@ import java.util.stream.Stream;
 /**
  * The class is uses to reader yaml a file
  */
-public class YamlReader implements IReader<String> {
-    private static final Logger log = LoggerFactory.getLogger(YamlReader.class);
-    private final String PATH_FILE_YAML;
-
-    public YamlReader(String path) {
-        PATH_FILE_YAML = path;
-    }
+@Service
+public class YamlReaderService implements IReader {
+    private static final Logger log = LoggerFactory.getLogger(YamlReaderService.class);
+    private String pathFileYaml;
 
     @Override
     public List<String> read() {
-        Predicate<String> predicateForFilter = line ->line.isEmpty()  && !checkForComments(line);
-        try (Stream<String> stream = Files.lines(Paths.get(PATH_FILE_YAML))) {
+        log.info("Read yaml file");
+        Predicate<String> predicateForFilter = line -> !line.isEmpty() && !checkForComments(line);
+        try (Stream<String> stream = Files.lines(Paths.get(pathFileYaml))) {
             return stream
                     .filter(predicateForFilter)
                     .collect(Collectors.toList());
@@ -36,7 +35,13 @@ public class YamlReader implements IReader<String> {
         }
         return Collections.emptyList();
     }
-    private boolean checkForComments(String line){
+
+    @Override
+    public void setPath(String pathToFile) {
+        pathFileYaml = pathToFile;
+    }
+
+    private boolean checkForComments(String line) {
         return line.matches("^[#;].*");
     }
 }

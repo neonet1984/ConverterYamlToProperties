@@ -1,4 +1,4 @@
-package model;
+package com.model;
 
 /**
  * The class is used to store yaml attributes and the

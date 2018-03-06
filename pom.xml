@@ -18,6 +18,8 @@
         <maven-plugins.target.version>1.8</maven-plugins.target.version>
         <maven-plugins.version>2.5</maven-plugins.version>
         <shade-plugin.version>3.1.0</shade-plugin.version>
+        <spring-core.version>5.0.2.RELEASE</spring-core.version>
+        <spring-test.version>4.3.0.RELEASE</spring-test.version>
     </properties>
 
     <dependencies>
@@ -48,7 +50,30 @@
             <artifactId>slf4j-log4j12</artifactId>
             <version>${slf4j-log4j12.version}</version>
         </dependency>
-       </dependencies>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>${spring-core.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${spring-core.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+            <version>${spring-core.version}</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.springframework/spring-test -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${spring-test.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
     <build>
         <plugins>
             <plugin>

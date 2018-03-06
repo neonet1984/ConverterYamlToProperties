@@ -1,4 +1,4 @@
-package parser;
+package com.parser;
 
 /**
  * Utils class for Prarser class

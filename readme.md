@@ -8,7 +8,7 @@ input.file=E:\\work\\file.yml
 output.file=E:\\work\\file.properties
 ****
 ****
-The program converts from yaml fotoata, in properties.
+The program converts from yaml format, in properties.
 Input and output parameters are configured in app.properties
 Input parameters :
 input.file - specify the path to the input to the yaml file
