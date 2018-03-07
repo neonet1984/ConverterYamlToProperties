@@ -16,7 +16,8 @@ public interface IFile {
 
     /**
      * The method uses for delete file
-     * @param pathFile the path to the file you want to delete
+     *
+     * @param pathToFile the path to the file you want to delete
      */
-    void removeFile(String pathFile);
+    void moveFile(String pathToFile, String pathDirectory);
 }

@@ -3,7 +3,7 @@ package com.service.impl;
 import com.model.Yaml;
 import com.parser.UtilsParsing;
 import com.service.IParser;
-import com.service.IValidator;
+
 import com.service.IYamlFormator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 /**
  * The ParserService class is uses to convert yaml to properties
@@ -19,52 +21,58 @@ import java.util.List;
 @Service
 public class ParserService implements IParser {
     private static final Logger log = LoggerFactory.getLogger(ParserService.class);
-    private final IYamlFormator yamlFormator;
-    private final IValidator yamlValidator;
-    private List<Yaml> yamlKeys = new ArrayList<>();
+    private final IYamlFormator yamlFormatorService;
+    private List<Yaml> ymlKeys = new ArrayList<>();
     private List<StringBuilder> propertiesList = new ArrayList<>();
 
     @Autowired
-    public ParserService(IYamlFormator yamlFormator, IValidator yamlValidator) {
-        this.yamlFormator = yamlFormator;
-        this.yamlValidator = yamlValidator;
+    public ParserService(IYamlFormator yamlFormatorService) {
+        this.yamlFormatorService = yamlFormatorService;
     }
 
     @Override
-    public List<StringBuilder> getConverterData(List<String> yamlList) {
+    public List<StringBuilder> getConverterData(List<String> ymlList) {
         log.info("Start parser");
-        yamlList = yamlFormator.getFormattedList(yamlList);
-        yamlList.forEach(this::addToList);
+        ymlList = yamlFormatorService.getFormattedList(ymlList);
+        ymlList.forEach(this::addToList);
         log.info("End parser");
         return propertiesList;
     }
 
     private void addToList(String line) {
         if (!UtilsParsing.checkYamlLine(line)) {
-            addYamlLineToYamlListKeys(line);
+            addLineToYamlKeys(line);
         } else {
             addPropertiesList(line);
         }
     }
 
-    private void addYamlLineToYamlListKeys(String line) {
+    private void addLineToYamlKeys(String line) {
         int countSpace = UtilsParsing.getCountSpace(line);
         deleteYamlKey(countSpace);
-        yamlKeys.add(new Yaml(countSpace, UtilsParsing.getYamlKey(line)));
+        ymlKeys.add(new Yaml(countSpace, UtilsParsing.getYamlKey(line)));
     }
 
     private void addPropertiesList(String line) {
         StringBuilder propertiesKeyValue = new StringBuilder();
         int countSpace = UtilsParsing.getCountSpace(line);
         deleteYamlKey(countSpace);
-        yamlKeys.stream()
-                .filter(key -> key.getCountSpace() < countSpace)
-                .forEach(key -> propertiesKeyValue.append(key.getYamlKey()).append("."));
+        ymlKeys.stream()
+                .filter(getFilterByCountOfSpace(countSpace))
+                .forEach(setPropertiesKeyValue(propertiesKeyValue));
         propertiesKeyValue.append(UtilsParsing.getKeyValue(line));
         propertiesList.add(propertiesKeyValue);
     }
 
     private void deleteYamlKey(int countSpace) {
-        yamlKeys.removeIf(line -> line.getCountSpace() >= countSpace);
+        ymlKeys.removeIf(line -> line.getCountSpace() >= countSpace);
+    }
+
+    private Predicate<? super Yaml> getFilterByCountOfSpace(int countSpace) {
+        return key -> key.getCountSpace() < countSpace;
+    }
+
+    private Consumer<? super Yaml> setPropertiesKeyValue(StringBuilder propertiesKeyValue) {
+        return key -> propertiesKeyValue.append(key.getYamlKey()).append(".");
     }
 }

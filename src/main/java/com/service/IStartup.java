@@ -6,7 +6,7 @@ package com.service;
  */
 public interface IStartup {
     /**
-     * The method startup startup
+     * The method is used to run the application
      */
     void startup();
 }

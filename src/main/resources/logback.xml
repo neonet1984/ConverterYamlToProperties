@@ -5,11 +5,9 @@
             <pattern>%d{yyyy-MM-dd HH:mm:ss} | %-5p | [%thread] %logger{5}:%L - %msg%n</pattern>
         </encoder>
     </appender>
-
     <root level="info">
         <appender-ref ref="STDOUT"/>
     </root>
-
     <appender name="fileAppender" class="ch.qos.logback.core.FileAppender">
         <file>LogFile.log</file>
         <append>true</append>
@@ -17,10 +15,8 @@
             <pattern>%d{yyyy-MM-dd HH:mm:ss} | %-5p | [%thread] %logger{5}:%L - %msg%n</pattern>
         </encoder>
     </appender>
-
     <root level="info">
-        <appender-ref ref="STDOUT" />
-        <appender-ref ref="fileAppender" />
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="fileAppender"/>
     </root>
-
 </configuration>

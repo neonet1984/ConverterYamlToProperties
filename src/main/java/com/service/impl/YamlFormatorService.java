@@ -13,11 +13,7 @@ import java.util.*;
 public class YamlFormatorService implements IYamlFormator {
     private static final Logger log = LoggerFactory.getLogger(YamlFormatorService.class);
 
-    /**
-     * The method use to format yaml
-     *
-     * @return yamlLines formatted yaml List
-     */
+    @Override
     public List<String> getFormattedList(List<String> list) {
         log.info("List forming");
         for (int indexLine = 0; indexLine < list.size(); indexLine++) {

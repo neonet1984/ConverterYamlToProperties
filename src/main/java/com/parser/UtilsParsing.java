@@ -1,7 +1,7 @@
 package com.parser;
 
 /**
- * Utils class for Prarser class
+ * Utils class for Parser class
  */
 public class UtilsParsing {
     /**
