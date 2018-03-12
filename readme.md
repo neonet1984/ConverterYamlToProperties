@@ -11,20 +11,20 @@
 Дальше сконфигурируйте <b>app.properties</b><br> 
 Описание файла:<br>
 <b>directory.source.files</b> - указываеться путь к входному yaml файлу<br>
-<b>directory.out.files</b> - укахывается путь по которому должен 
+<b>directory.out.files</b> - укахывается путь по которому должен <br>
 записаться конвертированный yaml файл<br>
-<b>directory.notvalid.files</b> - указываеться путь директории, в которую будут 
+<b>directory.notvalid.files</b> - указываеться путь директории, в которую будут<br> 
 перемещаться не валдиные файлы<br>
 <b>directory.converted.files</b> - указываеться путь в директорию, в которую будут перемещаться, 
 сконвертированные файлы<br>
 <b>time.out=2000</b> частота с которой будет проверяться директория на наличие в ней yaml файлов</br>
 
 Пример:<br>
-directory.source.files=C:\\WorkingDirectory\\filetest\\inputDirectory
-directory.out.files=C:\\WorkingDirectory\\filetest\\outputDirectory
-directory.notvalid.files=C:\\WorkingDirectory\\filetest\\notValidFiles
-directory.converted.files=C:\\WorkingDirectory\\filetest\\directoryConvertedFiles
-time.out=2000
+directory.source.files=C:\\WorkingDirectory\\filetest\\inputDirectory<br>
+directory.out.files=C:\\WorkingDirectory\\filetest\\outputDirectory<br>
+directory.notvalid.files=C:\\WorkingDirectory\\filetest\\notValidFiles<br>
+directory.converted.files=C:\\WorkingDirectory\\filetest\\directoryConvertedFiles<br>
+time.out=2000<br>
 
 Запуск приложения:<br>
 Вы можете для удобства создать .bat файл, в файле прописать команду:<br> <b>«java –jar ConverterYamlToProperties.jar»</b>
@@ -58,11 +58,11 @@ converted files <br>
 <b> time.out = 2000 </b> the frequency with which the directory will be checked for the presence of yaml files in it </br>
 
 Example: <br>
-directory.source.files = C: \\ WorkingDirectory \\ filetest \\ inputDirectory
-directory.out.files = C: \\ WorkingDirectory \\ filetest \\ outputDirectory
-directory.notvalid.files = C: \\ WorkingDirectory \\ filetest \\ notValidFiles
-directory.converted.files = C: \\ WorkingDirectory \\ filetest \\ directoryConvertedFiles
-time.out = 2000
+directory.source.files = C: \\ WorkingDirectory \\ filetest \\ inputDirectory<br>
+directory.out.files = C: \\ WorkingDirectory \\ filetest \\ outputDirectory<br>
+directory.notvalid.files = C: \\ WorkingDirectory \\ filetest \\ notValidFiles<br>
+directory.converted.files = C: \\ WorkingDirectory \\ filetest \\ directoryConvertedFiles<br>
+time.out = 2000<br>
 
 Running the application: <br>
 You can create a .bat file for your convenience, set the command in the file: <br> <b> "java -jar ConverterYamlToProperties.jar" </b>

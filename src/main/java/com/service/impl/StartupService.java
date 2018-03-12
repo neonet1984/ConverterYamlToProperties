@@ -22,11 +22,11 @@ public class StartupService implements IStartup {
      */
     @Autowired
     public StartupService(IParser parserService, IFileAdapter fileAdapterService, IValidator validatorService,
-                          ICheckerConfiguration checkerConfiguration) {
+                          ICheckerConfiguration checkerConfigurationService) {
         this.parserService = parserService;
         this.fileAdapterService = fileAdapterService;
         this.validatorService = validatorService;
-        this.checkerConfigurationService = checkerConfiguration;
+        this.checkerConfigurationService = checkerConfigurationService;
     }
 
     @Scheduled(fixedRateString = "${time.out}")
