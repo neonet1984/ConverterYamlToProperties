@@ -1,5 +1,6 @@
 package com.service.impl;
 
+import com.service.IFile;
 import com.service.IFileAdapter;
 import com.service.IReader;
 import com.service.IWriter;
@@ -9,52 +10,79 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 /**
  * The class encapsulates the service for reading and the service for writing files
  */
 @Service
 public class FileAdapterService implements IFileAdapter {
-    private static final Logger log = LoggerFactory.getLogger(FileAdapterService.class);
-
-    private final IReader yamlReader;
-
-    private final IWriter yamlWrite;
-
-    @Value("${input.file:inputFile.txt}")
-    private String inputFile;
-
-    @Value("${output.file:output.txt}")
-    private String outputFile;
+    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd HH.mm.ss");
+    private static final Logger log = LoggerFactory.getLogger(StartupService.class);
+    private final IReader yamlReaderService;
+    private final IWriter yamlWriteService;
+    private final IFile fileService;
+    @Value("${directory.source.files}")
+    private String directorySourceFiles;
+    @Value("${directory.out.files}")
+    private String directoryOutputFiles;
+    @Value("${directory.notvalid.files}")
+    private String directoryNotValidFiles;
+    @Value("${directory.converted.files}")
+    private String directoryWithConvertedFiles;
 
     /**
      * The constructor initializes the value fields, for the initialization
      * it receives from app.properties
      *
-     * @param yamlReader Service for reader yaml
-     * @param yamlWrite  Service for write properties
+     * @param yamlReaderService Service for reader yaml
+     * @param fileService Service for write properties
      */
     @Autowired
-    public FileAdapterService(IReader yamlReader, IWriter yamlWrite) {
-        this.yamlReader = yamlReader;
-        this.yamlWrite = yamlWrite;
+    public FileAdapterService(IReader yamlReaderService, IWriter yamlWriteService, IFile fileService) {
+        this.yamlReaderService = yamlReaderService;
+        this.yamlWriteService = yamlWriteService;
+        this.fileService = fileService;
     }
 
     @Override
-    public void init() {
-        log.info("Initialization of services for reading and writing files");
-        yamlReader.setPath(inputFile);
-        yamlWrite.setPath(outputFile);
-    }
-
-    @Override
-    public List<String> readFile() {
-        return yamlReader.read();
+    public List readFile(String pathToFile) {
+        yamlReaderService.setPath(pathToFile);
+        return yamlReaderService.read();
     }
 
     @Override
     public void write(List<StringBuilder> values) {
-        yamlWrite.write(values);
+        yamlWriteService.setPath(getOutputPath());
+        yamlWriteService.write(values);
+    }
+
+    @Override
+    public void moveFileToDirectoryNotValidFiles(String pathToFile) {
+        log.info("Moving a file to a directory with non-valid files");
+        moveFile(pathToFile, directoryNotValidFiles);
+    }
+
+    @Override
+    public void moveFileToDirectoryWithConvertedFiles(String pathToFile) {
+        log.info("Moving a file to the directory with converted files");
+        moveFile(pathToFile, directoryWithConvertedFiles);
+    }
+
+    @Override
+    public void moveFile(String pathToFile, String toDirectory) {
+        fileService.moveFile(pathToFile,toDirectory);
+    }
+
+    @Override
+    public List<String> getListPaths() {
+        return fileService.getListPaths(directorySourceFiles);
+    }
+
+    private String getOutputPath() {
+        return directoryOutputFiles + "\\" + dateFormat.format(new Date())+"."+new Random().nextInt()+ ".properties";
     }
 }

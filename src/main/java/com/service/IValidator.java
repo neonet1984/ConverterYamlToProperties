@@ -11,5 +11,5 @@ public interface IValidator {
      *
      * @param values correctness list lines for check
      */
-    void checkLines(List<String> values);
+    boolean checkLines(List<String> values);
 }
