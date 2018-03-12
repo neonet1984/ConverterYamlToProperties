@@ -1,9 +1,6 @@
 package com.service.impl;
 
-import com.service.IFileAdapter;
-import com.service.IParser;
-import com.service.IStartup;
-import com.service.IValidator;
+import com.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -18,20 +15,32 @@ public class StartupService implements IStartup {
     private final IParser parserService;
     private final IFileAdapter fileAdapterService;
     private final IValidator validatorService;
+    private final ICheckerConfiguration checkerConfigurationService;
 
     /**
      * The constructor initializes the value fields, for the initialization
      */
     @Autowired
-    public StartupService(IParser parserService, IFileAdapter fileAdapterService, IValidator validatorService) {
+    public StartupService(IParser parserService, IFileAdapter fileAdapterService, IValidator validatorService,
+                          ICheckerConfiguration checkerConfiguration) {
         this.parserService = parserService;
         this.fileAdapterService = fileAdapterService;
         this.validatorService = validatorService;
+        this.checkerConfigurationService = checkerConfiguration;
     }
 
     @Scheduled(fixedRateString = "${time.out}")
     @Override
     public void startup() {
+        if (checkerConfigurationService.isCheckPropertiesConfig()) {
+            processing();
+        }else {
+            System.exit(1);
+        }
+    }
+
+    private void processing() {
+        checkerConfigurationService.isCheckPropertiesConfig();
         List<String> listPaths = fileAdapterService.getListPaths();
         if (!listPaths.isEmpty()) {
             listPaths.forEach(this::processing);

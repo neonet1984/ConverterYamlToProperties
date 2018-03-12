@@ -11,14 +11,14 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
  */
 public class Main {
     private static final Logger log = LoggerFactory.getLogger(Main.class);
+
     /**
      * App Entry Point applicaton
      */
     public static void main(String[] args) {
-        log.info("The application is launched");
+        log.info("Application started");
         ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
         IStartup startupApplication = (IStartup) context.getBean("startupService");
         startupApplication.startup();
-        log.info("Application started");
     }
 }
