@@ -1,4 +1,3 @@
-import com.config.AppConfig;
 import com.config.TestConfig;
 import com.service.IParser;
 import org.junit.Assert;
@@ -36,6 +35,8 @@ public class ParserServiceTest {
 
     private List<String> getInputData() {
         List<String> data = new ArrayList<>();
+        data.add("#comment");
+        data.add("asdfsf");
         data.add("people:");
         data.add("  personaldata:");
         data.add("      name: \"Evgeny\"");

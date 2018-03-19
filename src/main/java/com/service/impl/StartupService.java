@@ -28,7 +28,6 @@ public class StartupService implements IStartup {
         this.fileAdapterService = fileAdapterService;
         this.directoryService = directoryService;
         this.validatorService = validatorService;
-
     }
 
     @Scheduled(fixedRateString = "${time.out}")
@@ -57,12 +56,13 @@ public class StartupService implements IStartup {
                         }
                 );
     }
-    private void writeValuesAndRemoveFile(List<String> values,String path) {
+
+    private void writeValuesAndRemoveFile(List<String> values, String path) {
         fileAdapterService.write(parserService.getConverterData(values));
         fileAdapterService.moveFileToDirectoryWithConvertedFiles(path);
     }
 
-    private void moveFile(String path){
+    private void moveFile(String path) {
         fileAdapterService.moveFileToDirectoryNotValidFiles(path);
     }
 }

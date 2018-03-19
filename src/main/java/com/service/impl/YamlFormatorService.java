@@ -6,6 +6,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  * The class to convert to a convenient form of yamlLines, for further parsing
@@ -17,6 +19,7 @@ public class YamlFormatorService implements IYamlFormator {
     @Override
     public List<String> getFormattedList(List<String> list) {
         log.info("List forming");
+        list = getNotContainComments(list);
         for (int indexLine = 0; indexLine < list.size(); indexLine++) {
             list = formatYamlList(indexLine, list);
         }
@@ -33,4 +36,14 @@ public class YamlFormatorService implements IYamlFormator {
         }
         return listLines;
     }
+
+    private List<String> getNotContainComments(List<String> list) {
+        Predicate<String> predicateForFilter = line -> !line.isEmpty() && !checkForComments(line);
+        return list.stream().filter(predicateForFilter).collect(Collectors.toList());
+    }
+
+    private boolean checkForComments(String line) {
+        return line.matches("^[#;].*");
+    }
+
 }

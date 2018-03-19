@@ -25,10 +25,8 @@ public class YamlReaderService implements IReader {
     @Override
     public List<String> read() {
         log.info("Read yaml file");
-        Predicate<String> predicateForFilter = line -> !line.isEmpty() && !checkForComments(line);
         try (Stream<String> stream = Files.lines(Paths.get(pathFileYaml))) {
             return stream
-                    .filter(predicateForFilter)
                     .collect(Collectors.toList());
         } catch (IOException e) {
             log.error("Error reading file", e);
@@ -41,7 +39,4 @@ public class YamlReaderService implements IReader {
         pathFileYaml = pathToFile;
     }
 
-    private boolean checkForComments(String line) {
-        return line.matches("^[#;].*");
-    }
 }
