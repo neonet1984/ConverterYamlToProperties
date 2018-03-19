@@ -6,6 +6,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * The class encapsulates read file,parsing file and write file
@@ -14,46 +15,54 @@ import java.util.List;
 public class StartupService implements IStartup {
     private final IParser parserService;
     private final IFileAdapter fileAdapterService;
+    private final IDirectory directoryService;
     private final IValidator validatorService;
-    private final ICheckerConfiguration checkerConfigurationService;
 
     /**
      * The constructor initializes the value fields, for the initialization
      */
     @Autowired
-    public StartupService(IParser parserService, IFileAdapter fileAdapterService, IValidator validatorService,
-                          ICheckerConfiguration checkerConfigurationService) {
+    public StartupService(IParser parserService, IFileAdapter fileAdapterService, IDirectory directoryService,
+                          IValidator validatorService) {
         this.parserService = parserService;
         this.fileAdapterService = fileAdapterService;
+        this.directoryService = directoryService;
         this.validatorService = validatorService;
-        this.checkerConfigurationService = checkerConfigurationService;
+
     }
 
     @Scheduled(fixedRateString = "${time.out}")
     @Override
     public void startup() {
-        if (checkerConfigurationService.isCheckPropertiesConfig()) {
+        if (directoryService.isCorrectnessDirectories()) {
             processing();
-        }else {
+        } else {
             System.exit(1);
         }
     }
 
     private void processing() {
-        checkerConfigurationService.isCheckPropertiesConfig();
-        List<String> listPaths = fileAdapterService.getListPaths();
-        if (!listPaths.isEmpty()) {
-            listPaths.forEach(this::processing);
-        }
+        fileAdapterService.getListPaths().forEach(this::processing);
     }
 
     private void processing(String path) {
-        List<String> values = fileAdapterService.readFile(path);
-        if (validatorService.checkLines(values)) {
-            fileAdapterService.write(parserService.getConverterData(values));
-            fileAdapterService.moveFileToDirectoryWithConvertedFiles(path);
-        } else {
-            fileAdapterService.moveFileToDirectoryNotValidFiles(path);
-        }
+        Stream
+                .of(fileAdapterService.readFile(path))
+                .forEach(values -> {
+                            if (validatorService.checkLines(values)) {
+                                writeValuesAndRemoveFile(values, path);
+                            } else {
+                                moveFile(path);
+                            }
+                        }
+                );
+    }
+    private void writeValuesAndRemoveFile(List<String> values,String path) {
+        fileAdapterService.write(parserService.getConverterData(values));
+        fileAdapterService.moveFileToDirectoryWithConvertedFiles(path);
+    }
+
+    private void moveFile(String path){
+        fileAdapterService.moveFileToDirectoryNotValidFiles(path);
     }
 }

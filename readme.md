@@ -1,71 +1,108 @@
-Программа сканирует настраиваемую папку на наличие. yml формат файлов , если файл с соответствующим форматом найден,<br> 
-программа конвертирует файл в .properties формат,после чего в случае удачного конвертирования перемещает как исходный<br> 
-файл в настраиваемую директорию,  так спрашенный файл в директорию, которую вы укажете в настройках<br>
-Для начала вам необходим клонировать репозиторий<br>
-Используете команду <b>"git clone https://github.com/neonet1984/ConverterYamlToProperties.git"</b><br>
-После того как репозиторий склонирован, откройте проект и соберите jar файл, воспользуйтесь командами майвена<br>
- <b>"clean , install"</b><br>
-В папке «target» появятся два jar фала. Скопируйте jar файл с именем «ConverterYamlToProperties.jar»<br> 
- в удобную для вас директорию.На уровне с скопированным jar файлом разместите файл «app.properties».<br>
-  Пример файла вы можете взять из проекта по адресу <b>"src/main/resources/app.properties"</b>
-Дальше сконфигурируйте <b>app.properties</b><br> 
-Описание файла:<br>
-<b>directory.source.files</b> - указываеться путь к входному yaml файлу<br>
-<b>directory.out.files</b> - укахывается путь по которому должен <br>
-записаться конвертированный yaml файл<br>
-<b>directory.notvalid.files</b> - указываеться путь директории, в которую будут<br> 
-перемещаться не валдиные файлы<br>
-<b>directory.converted.files</b> - указываеться путь в директорию, в которую будут перемещаться, 
-сконвертированные файлы<br>
-<b>time.out=2000</b> частота с которой будет проверяться директория на наличие в ней yaml файлов</br>
+Конвертатор файлов из yaml в properties
+========================================
+Программа сканирует настраиваемую папку на наличие. yml формат файлов, если файл с соответствующим форматом найден,
+программа конвертирует файл в .properties формат, после чего в случае удачного конвертирования перемещает как исходный
+файл в настраиваемую директорию, так спрашенный файл в директорию, которую вы укажете в настройках.
+***
+Стек технологий:
+- Java
+- Spring 
 
-Пример:<br>
-directory.source.files=C:\\WorkingDirectory\\filetest\\inputDirectory<br>
-directory.out.files=C:\\WorkingDirectory\\filetest\\outputDirectory<br>
-directory.notvalid.files=C:\\WorkingDirectory\\filetest\\notValidFiles<br>
-directory.converted.files=C:\\WorkingDirectory\\filetest\\directoryConvertedFiles<br>
-time.out=2000<br>
+Инструменты сборки:
+- Maven
 
-Запуск приложения:<br>
-Вы можете для удобства создать .bat файл, в файле прописать команду:<br> <b>«java –jar ConverterYamlToProperties.jar»</b>
-после чего запустить .bat файл. Либо вы можете открыть командную строку, в том катологе в котором находиться
-приложения и ввести команду <b>«java –jar ConverterYamlToProperties.jar»</b> в командной строке. После чего приложение
-запуститься 
+На вашей системе должны быть установленны:
+1. Java 8
+    * По [ссылке](http://barancev.github.io/how-to-install-java-on-windows/), вы можете прочесть информацию по установке
+    java , а также получить рекомендации по настройке переменных окружения
+2.  Maven 3.3.9
+    * Скачать можете по [ссылке](https://archive.apache.org/dist/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.zip), а инструкцию по
+    установке можете прочесть [тут](http://www.apache-maven.ru/install.html)
+3.  Git
+    * Доступен по [ссылке](https://git-scm.com/downloads)    
+    
+Сборка проекта
+=========================================
+1. Для начала вам необходим клонировать репозиторий.
+   * Откройте командную строку и введите в нее *git clone https://github.com/neonet1984/ConverterYamlToProperties.git*
+2. Теперь необходимо собрать jar файл
+   * Воспользуйтесь build.bat файлом который лежит по адрессу *src/main/resources/build.bat*, вынесите этот файл в 
+   корень с проектом и запустите его
+3. Настройка
+   * В папке *target* появятся два jar фала. Скопируйте jar файл с именем *ConverterYamlToProperties.jar*
+     в удобную для вас директорию. 
+   * На уровне с скопированным jar файлом разместите файлы:  *app.properties* и файл
+   *startup.bat*, эти файлы вы можете взять по адрессу *src/main/resources/app.properties* и *src/main/resources/startup.bat*
+4. Конфигурирование app.properties
+   * Откройте ранее скопированный вами app.properties и установите пути к директориям, и сохраните файл. 
+   * Описание app.properties:<br>
+   *directory.source.files* - указываеться путь к входному yaml файлу<br>
+   *directory.out.files* - укахывается путь по которому должен записаться конвертированный yaml файл<br>
+   *directory.error.files* - указываеться путь директории, в которую будут перемещаться не валдиные файлы<br>
+   *directory.success.files* - указываеться путь в директорию, в которую будут перемещаться,сконвертированные файлы<br>
+   *time.out=2000* - частота с которой будет проверяться директория на наличие в ней yaml файлов</br>
+   * Пример app.properties файла:<br>
+   directory.source.files=C:\\WorkingDirectory\\filetest\\inputDirectory<br>
+   directory.out.files=C:\\WorkingDirectory\\filetest\\outputDirectory<br>
+   directory.error.files=C:\\WorkingDirectory\\filetest\\errorDirectory<br>
+   directory.success.files=C:\\WorkingDirectory\\filetest\\successDirectory<br>
+   time.out=2000<br>
 
+Запуск приложения
+==================
+Когда произведены все настроки, запустите ранее вами скопированный startup.bat
+***
 
-****
-****
+The file converter from yaml in properties
+========================================
+The program scans the custom folder for availability. yml file format, if a file with the appropriate format is found,
+the program converts the file into a .properties format, then in case of a successful conversion it moves as the original
+file in a custom directory, so the requested file in the directory you specify in the settings.
+***
+Stack of technologies:
+- Java
+- Spring
 
-The program scans the custom folder for availability. yml file format, if a file with the corresponding format is found, <br>
-the program converts the file into a .properties format, then, in case of a successful conversion, moves both the source file
-file in a custom directory, so the requested file in the directory you specify in the settings <br>
-First you need to clone the repository <br>
-Use the <b> "git clone https://github.com/neonet1984/ConverterYamlToProperties.git" </b> <br>
-After the repository is bent, open the project and compile the jar file, use the Mayween commands <br>
- <b> "clean, install" </b> <br>
-In the folder "target" two jar files will appear. Copy the jar file named "ConverterYamlToProperties.jar" <br>
- in a directory convenient for you. On the level with the copied jar file, place the file "app.properties". <br>
-  You can take a sample file from the project at <b> "src / main / resources / app.properties" </b>
-Next, configure <b> app.properties </b> <br>
-File description: <br>
-<b> directory.source.files </b> - indicates the path to the input yaml file <br>
-<b> directory.out.files </b> - the path for which the
-enroll a converted yaml file <br>
-<b> directory.notvalid.files </b> - indicates the path of the directory to which the
-move non-valdin files <br>
-<b> directory.converted.files </b> - specify the path to the directory to be moved to,
-converted files <br>
-<b> time.out = 2000 </b> the frequency with which the directory will be checked for the presence of yaml files in it </br>
+Build Tools:
+- Maven
 
-Example: <br>
-directory.source.files = C: \\ WorkingDirectory \\ filetest \\ inputDirectory<br>
-directory.out.files = C: \\ WorkingDirectory \\ filetest \\ outputDirectory<br>
-directory.notvalid.files = C: \\ WorkingDirectory \\ filetest \\ notValidFiles<br>
-directory.converted.files = C: \\ WorkingDirectory \\ filetest \\ directoryConvertedFiles<br>
-time.out = 2000<br>
+Your system must have:
+1. Java 8
+   * By [link](http://barancev.github.io/how-to-install-java-on-windows/), you can read the installation information
+     java, as well as get recommendations for setting environment variables
+2. Maven 3.3.9
+   * You can download by [link](https://archive.apache.org/dist/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.zip), and the instruction on
+    installation can read [here](http://www.apache-maven.ru/install.html)
+3. Git
+   * Available by [link](https://git-scm.com/downloads)
+    
+#Build the project
 
-Running the application: <br>
-You can create a .bat file for your convenience, set the command in the file: <br> <b> "java -jar ConverterYamlToProperties.jar" </b>
-then run the .bat file. Or you can open a command line in the same location
-and enter the <b> "java -jar ConverterYamlToProperties.jar" </b> command on the command line. After that, the application
-start
+1. First, you need to clone the repository.
+   * Open a command prompt and type *git clone https://github.com/neonet1984/ConverterYamlToProperties.git*
+2. Now you need to compile the jar file
+   * Use the build.bat file which is located at the address *src/main/resources/build.bat*, put this file in the
+   root with the project and run it
+3. Setting up
+   * In the folder *target* two jar files will appear. Copy the jar file named *ConverterYamlToProperties.jar*
+     in a directory convenient for you.
+   * At the level with the copied jar file, place the files: *app.properties* and the file
+   *startup.bat*, these files you can take at the address *src/main/resources/app.properties* and *src/main/resources/startup.bat*
+4. Configuring app.properties
+   * Open the app.properties you previously copied and set the path to the directories, and save the file.
+   * Description of app.properties: <br>
+   *directory.source.files* - indicates the path to the input yaml file <br>
+   *directory.out.files* - the path to which the converted yaml file should be recorded <br>
+   *directory.error.files* - indicates the path of the directory to which non-valdin files will be moved <br>
+   *directory.success.files* - indicates the path to the directory to which to move, the converted files <br>
+   *time.out = 2000* - the frequency with which the directory will be checked for the presence of yaml files in it <br>
+   * Example of app.properties file: <br>
+   directory.source.files = C:\\WorkingDirectory\\filetest\\inputDirectory <br>
+   directory.out.files = C:\\WorkingDirectory\\filetest\\outputDirectory <br>
+   directory.error.files = C:\\WorkingDirectory\\filetest\\errorDirectory <br>
+   directory.success.files = C:\\WorkingDirectory\\filetest\\successDirectory <br>
+   time.out = 2000 <br>
+
+Running the application
+==================
+When all the settings are made, run previously copied startup.bat

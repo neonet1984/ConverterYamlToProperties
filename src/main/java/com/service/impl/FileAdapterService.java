@@ -29,9 +29,9 @@ public class FileAdapterService implements IFileAdapter {
     private String directorySourceFiles;
     @Value("${directory.out.files}")
     private String directoryOutputFiles;
-    @Value("${directory.notvalid.files}")
+    @Value("${directory.error.files}")
     private String directoryNotValidFiles;
-    @Value("${directory.converted.files}")
+    @Value("${directory.success.files}")
     private String directoryWithConvertedFiles;
 
     /**

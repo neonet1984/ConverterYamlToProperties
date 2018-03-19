@@ -1,4 +1,5 @@
 import com.config.AppConfig;
+import com.config.TestConfig;
 import com.service.IParser;
 import org.junit.Assert;
 import org.junit.Test;
@@ -16,7 +17,7 @@ import java.util.List;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ComponentScan(basePackages = {"com.service"})
-@ContextConfiguration(classes = AppConfig.class)
+@ContextConfiguration(classes = TestConfig.class)
 public class ParserServiceTest {
     @Autowired
     private IParser parserService;

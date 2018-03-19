@@ -17,8 +17,6 @@ public class Main {
      */
     public static void main(String[] args) {
         log.info("Application started");
-        ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
-        IStartup startupApplication = (IStartup) context.getBean("startupService");
-        startupApplication.startup();
+        new AnnotationConfigApplicationContext(AppConfig.class);
     }
 }
