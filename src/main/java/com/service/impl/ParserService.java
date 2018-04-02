@@ -32,6 +32,7 @@ public class ParserService implements IParser {
 
     @Override
     public List<StringBuilder> getConverterData(List<String> ymlList) {
+        propertiesList.clear();
         log.info("Start parser");
         ymlList = yamlFormatorService.getFormattedList(ymlList);
         ymlList.forEach(this::addToList);

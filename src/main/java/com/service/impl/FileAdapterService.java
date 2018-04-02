@@ -25,13 +25,13 @@ public class FileAdapterService implements IFileAdapter {
     private final IReader yamlReaderService;
     private final IWriter yamlWriteService;
     private final IFile fileService;
-    @Value("${directory.source.files}")
+    @Value("${directory.source}")
     private String directorySourceFiles;
-    @Value("${directory.out.files}")
+    @Value("${directory.out:directory_output}")
     private String directoryOutputFiles;
-    @Value("${directory.error.files}")
+    @Value("${directory.error:directory_error}")
     private String directoryNotValidFiles;
-    @Value("${directory.success.files}")
+    @Value("${directory.success:directory_success}")
     private String directoryWithConvertedFiles;
 
     /**
@@ -39,7 +39,7 @@ public class FileAdapterService implements IFileAdapter {
      * it receives from app.properties
      *
      * @param yamlReaderService Service for reader yaml
-     * @param fileService Service for write properties
+     * @param fileService       Service for write properties
      */
     @Autowired
     public FileAdapterService(IReader yamlReaderService, IWriter yamlWriteService, IFile fileService) {
@@ -74,7 +74,7 @@ public class FileAdapterService implements IFileAdapter {
 
     @Override
     public void moveFile(String pathToFile, String toDirectory) {
-        fileService.moveFile(pathToFile,toDirectory);
+        fileService.moveFile(pathToFile, toDirectory);
     }
 
     @Override
@@ -83,6 +83,6 @@ public class FileAdapterService implements IFileAdapter {
     }
 
     private String getOutputPath() {
-        return directoryOutputFiles + "\\" + dateFormat.format(new Date())+"."+new Random().nextInt()+ ".properties";
+        return directoryOutputFiles + "\\" + dateFormat.format(new Date()) + "." + new Random().nextInt() + ".properties";
     }
 }

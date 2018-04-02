@@ -18,13 +18,13 @@ import java.util.stream.Stream;
 @Service
 public class DirectoryService implements IDirectory {
     private static final Logger log = LoggerFactory.getLogger(DirectoryService.class);
-    @Value("${directory.source.files}")
+    @Value("${directory.source}")
     private String directorySourceFiles;
-    @Value("${directory.out.files}")
+    @Value("${directory.out:directory_output}")
     private String directoryOutputFiles;
-    @Value("${directory.error.files}")
+    @Value("${directory.error:directory_error}")
     private String directoryErrorFiles;
-    @Value("${directory.success.files}")
+    @Value("${directory.success:directory_success}")
     private String directorySuccessFiles;
 
     @Override
